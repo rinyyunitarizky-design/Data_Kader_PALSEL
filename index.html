@@ -67,8 +67,8 @@
           <div class="flex items-start gap-3 min-w-0">
             <div class="w-14 h-14 rounded-2xl bg-[#FFEFC4] p-1 shadow-md flex items-center justify-center shrink-0 overflow-hidden border-2 border-[#00A693]">
               <img
-                src="./Mwc%20palsel%20Palsel.jpeg"
-                alt="Logo MWC Palu Selatan"
+                src="./Palsel.jpeg"
+                alt="Logo Palu Selatan"
                 class="w-full h-full logo-frame rounded-xl"
                 onerror="this.style.display='none'; document.getElementById('logoFallback').classList.remove('hidden');"
               />
@@ -91,7 +91,7 @@
       <nav class="p-3 space-y-1.5 mt-2">
         <button onclick="switchTab('dashboard'); closeSidebar();" id="nav-dashboard" class="nav-active w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-sm transition text-left">
           <span class="text-lg">📊</span>
-          <span>Dashboard & Diagram</span>
+          <span>Dashboard &amp; Diagram</span>
         </button>
 
         <button onclick="switchTab('form'); closeSidebar();" id="nav-form" class="nav-inactive w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-sm transition text-left">
@@ -101,12 +101,12 @@
 
         <button onclick="switchTab('direktori'); closeSidebar();" id="nav-direktori" class="nav-inactive w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-sm transition text-left">
           <span class="text-lg">🪪</span>
-          <span>Direktori & Kartu Kader</span>
+          <span>Direktori &amp; Kartu Kader</span>
         </button>
 
         <button onclick="switchTab('koneksi'); closeSidebar();" id="nav-koneksi" class="nav-inactive w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-sm transition text-left">
           <span class="text-lg">🛡️</span>
-          <span>Proteksi & Sinkronisasi</span>
+          <span>Status &amp; Keamanan</span>
         </button>
       </nav>
     </div>
@@ -140,7 +140,7 @@
               DPC Wahdah Islamiyah Cabang Palu Selatan
             </h1>
             <p id="pageSubtitle" class="text-xs text-[#00A693] font-semibold">
-              Rekapitulasi Kader, Diagram Statistik, Kartu Kader & Sinkronisasi Terproteksi
+              Rekapitulasi Kader, Diagram Statistik, Kartu Kader &amp; Sinkronisasi Spreadsheet
             </p>
           </div>
         </div>
@@ -172,9 +172,14 @@
         <div id="privacyNotice" class="bg-[#FFEFC4] border-l-4 border-[#00A693] p-4 rounded-r-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs no-print">
           <div class="flex items-start sm:items-center gap-3">
             <span class="text-xl">🛡️</span>
-            <p class="text-xs sm:text-sm text-[#086288] font-medium">
-              <strong>Keamanan Data Aktif:</strong> Tidak ada alamat endpoint yang tersimpan permanen di kode aplikasi; data sensitif (Alamat, Nomor HP, Pekerjaan) dikunci pada layar publik dan Edit/Hapus memerlukan <strong>PIN Admin</strong>.
-            </p>
+            <div class="text-xs sm:text-sm text-[#086288] font-medium space-y-0.5">
+              <p>
+                <strong>Sinkronisasi Aktif:</strong> Data yang diinput otomatis disinkronkan ke Spreadsheet. Data sensitif (Alamat, Nomor HP, Pekerjaan) dikunci pada tampilan publik dan perubahan data memerlukan <strong>PIN Admin</strong>.
+              </p>
+              <p class="text-[11px] font-bold text-[#007a6b]">
+                Jika ada kendala, Hubungi Administrator Aplikasi Data Kader MWC Palu Selatan.
+              </p>
+            </div>
           </div>
           <button onclick="openPinModal('UNLOCK_ADMIN')" class="shrink-0 px-3.5 py-1.5 bg-[#00A693] text-white text-xs font-bold rounded-lg hover:bg-[#008b7b] transition">
             Buka Kunci Admin
@@ -218,7 +223,7 @@
             <div class="flex items-center justify-between mb-3">
               <div>
                 <h2 class="text-base font-extrabold text-[#086288]">Diagram Sebaran Marhala Kader</h2>
-                <p class="text-xs text-slate-500">Distribusi Ta'arif 1, Ta'arif 2, Takwin 1, Takwin 2 & Tanfis</p>
+                <p class="text-xs text-slate-500">Distribusi Ta'arif 1, Ta'arif 2, Takwin 1, Takwin 2 &amp; Tanfis</p>
               </div>
               <span class="px-2.5 py-1 rounded-full bg-[#00A693]/15 text-[#00A693] text-xs font-extrabold">Bar Chart</span>
             </div>
@@ -231,7 +236,7 @@
             <div class="flex items-center justify-between mb-3">
               <div>
                 <h2 class="text-base font-extrabold text-[#086288]">Diagram Amanah Liqo Saat Ini</h2>
-                <p class="text-xs text-slate-500">Perbandingan Liqo Dirosa, Liqo Tarbiyah & Liqo Tahsin</p>
+                <p class="text-xs text-slate-500">Perbandingan Liqo Dirosa, Liqo Tarbiyah &amp; Liqo Tahsin</p>
               </div>
               <span class="px-2.5 py-1 rounded-full bg-[#FFEFC4] text-[#086288] text-xs font-extrabold">Doughnut</span>
             </div>
@@ -245,8 +250,8 @@
         <div class="bg-white rounded-2xl p-6 shadow-xs border border-[#00A693]/35">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
             <div>
-              <h2 class="text-base font-extrabold text-[#086288]">Diagram Rekapitulasi Pelatihan & Diklat</h2>
-              <p class="text-xs text-slate-500">Jumlah kader berdasarkan DM 1, DM 2, DMC, PPD, DK 1, DK 2, Diklat Daiyah 1 & 2</p>
+              <h2 class="text-base font-extrabold text-[#086288]">Diagram Rekapitulasi Pelatihan &amp; Diklat</h2>
+              <p class="text-xs text-slate-500">Jumlah kader berdasarkan DM 1, DM 2, DMC, PPD, DK 1, DK 2, Diklat Daiyah 1 &amp; 2</p>
             </div>
             <span class="px-3 py-1 rounded-full bg-[#00A693] text-white text-xs font-bold self-start">8 Indikator Diklat</span>
           </div>
@@ -257,9 +262,17 @@
 
         <!-- LOG AKTIVITAS TERBARU -->
         <div class="bg-white rounded-2xl p-6 shadow-xs border border-[#00A693]/35">
-          <div class="flex items-center justify-between mb-4">
-            <h2 class="text-base font-extrabold text-[#086288]">Log Aktivitas & Sinkronisasi Data</h2>
-            <span class="text-xs font-bold text-[#00A693]">Riwayat Terbaru</span>
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+            <div>
+              <h2 class="text-base font-extrabold text-[#086288]">Log Aktivitas &amp; Sinkronisasi Data</h2>
+              <p class="text-xs text-slate-500">Jika ada kendala, Hubungi Administrator Aplikasi Data Kader MWC Palu Selatan.</p>
+            </div>
+            <div class="flex items-center gap-2 no-print">
+              <button onclick="requestClearLogs()" class="px-3 py-1.5 rounded-lg bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 text-xs font-bold transition">
+                🗑️ Bersihkan Riwayat Log
+              </button>
+              <span class="text-xs font-bold text-[#00A693]">Riwayat Terbaru</span>
+            </div>
           </div>
           <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
@@ -290,12 +303,29 @@
             </button>
           </div>
 
+          <!-- PETUNJUK PENGISIAN -->
+          <div class="mx-6 mt-6 bg-[#f0fbf9] border-2 border-[#00A693]/40 rounded-2xl p-4 space-y-2">
+            <div class="flex items-center gap-2 text-[#086288] font-extrabold text-sm">
+              <span>📌</span>
+              <h3>Petunjuk Pengisian</h3>
+            </div>
+            <ol class="list-decimal list-inside text-xs sm:text-sm text-slate-700 space-y-1 leading-relaxed">
+              <li>Lengkapi seluruh kolom bertanda bintang (<span class="text-red-500 font-bold">*</span>) dengan data yang benar dan terkini.</li>
+              <li>Pada bagian <strong>Amanah Saat Ini</strong> dan <strong>Pelatihan yang Sudah Diikuti</strong>, centang seluruh pilihan yang sesuai (boleh lebih dari satu).</li>
+              <li>Pilih jenjang <strong>Liqo Tarbiyah</strong> atau tingkatan <strong>Liqo Tahsin</strong> setelah mencentang amanah utamanya.</li>
+              <li>Klik <strong>Simpan &amp; Sinkronkan ke Spreadsheet</strong> lalu tunggu hingga proses sinkronisasi selesai.</li>
+            </ol>
+            <p class="text-xs font-bold text-[#086288] pt-1 border-t border-[#00A693]/25">
+              Jika ada kendala, Hubungi Administrator Aplikasi Data Kader MWC Palu Selatan.
+            </p>
+          </div>
+
           <form id="kaderForm" onsubmit="handleFormSubmit(event)" class="p-6 space-y-7">
             <input type="hidden" id="editKaderId" value="" />
 
             <div>
               <h3 class="text-sm font-extrabold uppercase tracking-wider text-[#086288] border-b-2 border-[#00A693] pb-2 mb-4">
-                1. Identitas Pribadi & Marhala
+                1. Identitas Pribadi &amp; Marhala
               </h3>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
@@ -429,7 +459,7 @@
 
             <div>
               <h3 class="text-sm font-extrabold uppercase tracking-wider text-[#086288] border-b-2 border-[#00A693] pb-2 mb-4">
-                3. Pelatihan & Diklat yang Sudah Diikuti
+                3. Pelatihan &amp; Diklat yang Sudah Diikuti
               </h3>
               <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <div class="p-4 rounded-xl border border-[#00A693]/40 bg-[#f4fbfa]">
@@ -480,13 +510,18 @@
               </div>
             </div>
 
-            <div class="pt-4 border-t border-slate-200 flex flex-wrap items-center justify-end gap-3">
-              <button type="button" onclick="resetForm()" class="px-5 py-2.5 rounded-xl border border-slate-300 text-slate-700 font-bold text-sm hover:bg-slate-50 transition">
-                Reset
-              </button>
-              <button type="submit" id="submitFormBtn" class="px-6 py-2.5 rounded-xl bg-[#00A693] hover:bg-[#008b7b] text-white font-extrabold text-sm shadow-md transition flex items-center gap-2">
-                <span>💾</span> Simpan & Sinkronkan ke Spreadsheet
-              </button>
+            <div class="pt-4 border-t border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <p class="text-xs font-bold text-[#086288]">
+                Jika ada kendala, Hubungi Administrator Aplikasi Data Kader MWC Palu Selatan.
+              </p>
+              <div class="flex flex-wrap items-center justify-end gap-3">
+                <button type="button" onclick="resetForm()" class="px-5 py-2.5 rounded-xl border border-slate-300 text-slate-700 font-bold text-sm hover:bg-slate-50 transition">
+                  Reset
+                </button>
+                <button type="submit" id="submitFormBtn" class="px-6 py-2.5 rounded-xl bg-[#00A693] hover:bg-[#008b7b] text-white font-extrabold text-sm shadow-md transition flex items-center gap-2">
+                  <span>💾</span> Simpan &amp; Sinkronkan ke Spreadsheet
+                </button>
+              </div>
             </div>
           </form>
         </div>
@@ -526,11 +561,11 @@
               <thead>
                 <tr class="bg-[#086288] text-white text-xs uppercase tracking-wider">
                   <th class="py-3.5 px-4">No</th>
-                  <th class="py-3.5 px-4">Nama & Panggilan</th>
+                  <th class="py-3.5 px-4">Nama &amp; Panggilan</th>
                   <th class="py-3.5 px-4">Marhala</th>
                   <th class="py-3.5 px-4">Data Privat (Admin)</th>
                   <th class="py-3.5 px-4">Amanah Liqo</th>
-                  <th class="py-3.5 px-4">Diklat & Pelatihan</th>
+                  <th class="py-3.5 px-4">Diklat &amp; Pelatihan</th>
                   <th class="py-3.5 px-4 text-center no-print">Aksi</th>
                 </tr>
               </thead>
@@ -540,45 +575,28 @@
         </div>
       </section>
 
-      <!-- ==================== TAB 4: PROTEKSI & SINKRONISASI ==================== -->
+      <!-- ==================== TAB 4: STATUS & KEAMANAN ==================== -->
       <section id="tab-koneksi" class="hidden space-y-6 no-print">
-        <div class="bg-white rounded-2xl p-6 shadow-xs border border-[#00A693]/40 space-y-5">
+        <div class="bg-white rounded-2xl p-6 shadow-xs border border-[#00A693]/40 space-y-4">
           <div class="border-b border-slate-200 pb-4 flex items-center justify-between gap-3">
             <div>
-              <h2 class="text-lg font-extrabold text-[#086288]">Proteksi Kanal Sesi & Sinkronisasi Admin</h2>
+              <h2 class="text-lg font-extrabold text-[#086288]">Keamanan Kanal &amp; Hak Akses</h2>
               <p class="text-xs sm:text-sm text-slate-600 mt-1">
-                Tidak ada URL yang tersimpan permanen di kode aplikasi. Masukkan <strong>PIN Admin</strong> untuk mengaktifkan kanal sinkronisasi sementara selama sesi berjalan.
+                Alamat endpoint tersimpan tersembunyi di dalam kode GitHub Pages sehingga tidak ditampilkan secara langsung kepada pengguna di aplikasi.
               </p>
             </div>
             <span id="endpointShieldBadge" class="px-3 py-1.5 rounded-xl bg-[#00A693]/15 text-[#00A693] text-xs font-extrabold shrink-0">
-              🛡️ Tanpa URL Tertanam
+              🛡️ Tersembunyi di Kode
             </span>
           </div>
 
-          <div class="bg-[#f4fbfa] border border-[#00A693]/40 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div>
-              <p class="text-xs font-extrabold uppercase text-[#086288]">Status Kanal Sesi</p>
-              <p id="maskedEndpointLabel" class="text-xs text-slate-600 font-mono mt-0.5">Tidak ada URL tersimpan di kode (Mode Sesi/Lokal)</p>
-            </div>
-            <button onclick="openPinModal('CONFIGURE_ENDPOINT')" class="px-4 py-2 rounded-xl bg-[#00A693] hover:bg-[#008b7b] text-white font-bold text-xs transition shrink-0">
-              🔐 Atur Kanal Sesi (Admin)
-            </button>
+          <div class="bg-[#f4fbfa] border border-[#00A693]/40 rounded-xl p-4 space-y-1 text-xs text-slate-700">
+            <p class="font-extrabold uppercase text-[#086288]">Status Kanal Spreadsheet</p>
+            <p id="maskedEndpointLabel" class="font-mono text-slate-600">•••••••••••••••••••••••• (Disembunyikan dari tampilan)</p>
           </div>
 
-          <div id="adminEndpointEditor" class="hidden space-y-3 p-4 rounded-xl bg-[#FFEFC4]/40 border border-[#00A693]/30">
-            <label class="block text-xs font-extrabold uppercase tracking-wider text-[#086288]">
-              Alamat Web App Spreadsheet (Hanya Aktif di Sesi Browser Saat Ini)
-            </label>
-            <div class="flex flex-col sm:flex-row gap-2.5">
-              <input type="password" id="gasSecretInput" placeholder="Masukkan alamat Web App untuk sesi ini..."
-                class="flex-1 px-4 py-2.5 rounded-xl border border-[#00A693] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[#00A693]" />
-              <button onclick="saveSessionEndpoint()" class="px-5 py-2.5 rounded-xl bg-[#00A693] hover:bg-[#008b7b] text-white font-bold text-sm transition">
-                Aktifkan Sesi
-              </button>
-              <button onclick="clearSessionEndpoint()" class="px-4 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold text-sm transition">
-                Bersihkan
-              </button>
-            </div>
+          <div class="bg-[#FFEFC4]/70 border border-[#086288]/20 rounded-xl p-4 text-xs font-bold text-[#086288]">
+            Jika ada kendala, Hubungi Administrator Aplikasi Data Kader MWC Palu Selatan.
           </div>
         </div>
       </section>
@@ -586,9 +604,10 @@
 
     <!-- FOOTER -->
     <footer class="bg-[#086288] text-white py-4 mt-8 border-t-4 border-[#00A693] no-print">
-      <div class="max-w-7xl mx-auto px-4 text-center text-xs">
+      <div class="max-w-7xl mx-auto px-4 text-center text-xs space-y-1">
         <p class="font-bold">DPC Wahdah Islamiyah Cabang Palu Selatan</p>
-        <p class="text-[#97D7FF] mt-0.5">Sistem Informasi Pendataan Kader, Amanah Lembaga & Riwayat Diklat</p>
+        <p class="text-[#97D7FF]">Sistem Informasi Pendataan Kader, Amanah Lembaga &amp; Riwayat Diklat</p>
+        <p class="text-[#FFEFC4] font-semibold">Jika ada kendala, Hubungi Administrator Aplikasi Data Kader MWC Palu Selatan.</p>
       </div>
     </footer>
   </div>
@@ -601,7 +620,7 @@
           🔐
         </div>
         <h3 class="text-lg font-extrabold text-[#086288]">Otorisasi PIN Admin</h3>
-        <p class="text-xs text-slate-600 mt-1">Masukkan PIN Admin untuk melihat data sensitif, mengubah, menghapus, atau mengatur kanal sesi.</p>
+        <p class="text-xs text-slate-600 mt-1">Masukkan PIN Admin untuk melihat data sensitif, mengubah, menghapus, atau membersihkan log.</p>
       </div>
 
       <div>
@@ -626,7 +645,7 @@
   <div id="detailModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs hidden items-center justify-center z-50 p-4">
     <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border-2 border-[#00A693]">
       <div class="bg-[#086288] px-6 py-4 text-white flex items-center justify-between sticky top-0 no-print">
-        <h3 class="font-extrabold text-base">Kartu & Rincian Profil Kader</h3>
+        <h3 class="font-extrabold text-base">Kartu &amp; Rincian Profil Kader</h3>
         <div class="flex items-center gap-2">
           <button onclick="window.print()" class="px-3 py-1 rounded-lg bg-[#00A693] text-white text-xs font-extrabold hover:bg-[#008b7b]">
             🖨️ Cetak / PDF
@@ -642,13 +661,14 @@
   <div id="toast" class="fixed bottom-5 right-5 bg-[#086288] text-white px-5 py-3 rounded-xl shadow-xl border-l-4 border-[#00A693] text-xs sm:text-sm font-bold transform translate-y-24 opacity-0 transition-all duration-300 z-50 no-print"></div>
 
   <script>
+    const _EP_ENC = "==vexJ3GWvQlSd7D11bZa4rsATNNe-bmW3mhclsSl4FQ4NDCZw_wrDZpWp6BIKwAcEoE7ud4ZaSmbybcKyfKA/s/sorcam/elgoog.tpyrcs//:sptth";
     const FALLBACK_LOCAL_PIN = "202601";
+
     const MARHALAH_LIST = ["Ta'arif 1", "Ta'arif 2", "Takwin 1", "Takwin 2", "Tanfis"];
     const PRESET_PEKERJAAN = [
       "Mahasiswa", "IRT", "Pedagang", "ASN", "Dosen", "Guru", "Pengajar Qur'an dan/atau Murobbiyah"
     ];
 
-    let sessionEncodedEndpoint = "";
     let kaderData = [];
     let activityLogs = [];
     let isAdmin = false;
@@ -665,39 +685,47 @@
       loadInitialData();
     });
 
-    function decodeRevB64(revStr) {
+    function getAppEndpoint() {
       try {
-        if (!revStr) return "";
-        const b64 = String(revStr).trim().split("").reverse().join("");
-        return atob(b64).trim();
+        if (!_EP_ENC) return "";
+        const b64 = String(_EP_ENC).trim().split("").reverse().join("");
+        const decoded = atob(b64).trim();
+        return decoded.startsWith("http") ? decoded : "";
       } catch (e) {
         return "";
       }
-    }
-
-    function encodeRevB64(rawStr) {
-      try {
-        return btoa(String(rawStr).trim()).split("").reverse().join("");
-      } catch (e) {
-        return "";
-      }
-    }
-
-    function getSessionEndpoint() {
-      const decoded = decodeRevB64(sessionEncodedEndpoint);
-      return decoded.startsWith("http") ? decoded : "";
     }
 
     function updateEndpointMaskUI() {
-      const ep = getSessionEndpoint();
+      const ep = getAppEndpoint();
       const maskEl = document.getElementById("maskedEndpointLabel");
       const badgeEl = document.getElementById("endpointShieldBadge");
       if (ep) {
-        maskEl.textContent = "Kanal Sesi Aktif •••••••• (Tidak Tersimpan Permanen di Kode)";
-        badgeEl.textContent = "🛡️ Kanal Sesi Aktif";
+        maskEl.textContent = "Kanal Spreadsheet Aktif •••••••• (Tersembunyi dari tampilan)";
+        badgeEl.textContent = "🛡️ Tersembunyi di Kode";
       } else {
-        maskEl.textContent = "Tidak ada URL tersimpan di kode (Mode Sesi/Lokal)";
-        badgeEl.textContent = "🛡️ Tanpa URL Tertanam";
+        maskEl.textContent = "Kode endpoint belum diisi pada skrip (Mode Lokal)";
+        badgeEl.textContent = "🔒 Mode Lokal";
+      }
+    }
+
+    async function postToEndpoint(url, payload) {
+      try {
+        const res = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(payload)
+        });
+        const text = await res.text();
+        return JSON.parse(text);
+      } catch (err) {
+        await fetch(url, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(payload)
+        });
+        return { status: "success", opaque: true };
       }
     }
 
@@ -738,7 +766,7 @@
     }
 
     async function loadInitialData(silent = false) {
-      const url = getSessionEndpoint();
+      const url = getAppEndpoint();
       if (url) {
         updateSyncBadge("loading", "Menyinkronkan...");
         try {
@@ -782,37 +810,12 @@
       else dot.className += "bg-amber-400";
     }
 
-    function saveSessionEndpoint() {
-      if (!isAdmin) {
-        openPinModal("CONFIGURE_ENDPOINT");
-        return;
-      }
-      const raw = document.getElementById("gasSecretInput").value.trim();
-      if (!raw || !raw.startsWith("http")) {
-        showToast("Masukkan alamat Web App yang valid (diawali http/https).");
-        return;
-      }
-      sessionEncodedEndpoint = encodeRevB64(raw);
-      document.getElementById("gasSecretInput").value = "";
-      updateEndpointMaskUI();
-      showToast("Kanal sesi aktif untuk sinkronisasi!");
-      loadInitialData();
-    }
-
-    function clearSessionEndpoint() {
-      sessionEncodedEndpoint = "";
-      document.getElementById("gasSecretInput").value = "";
-      updateEndpointMaskUI();
-      updateSyncBadge("local", "Mode Lokal");
-      showToast("Kanal sesi dibersihkan.");
-    }
-
     function switchTab(tabName) {
       const titles = {
         dashboard: ["Dashboard & Diagram Kader", "Rekapitulasi Marhala, Amanah Liqo & Diklat DPC Palu Selatan"],
         form: ["Formulir Pendataan Kader", "Input atau perbarui data kader DPC Wahdah Islamiyah Cabang Palu Selatan"],
         direktori: ["Direktori & Kartu Kader", "Tampilan kartu profil kader dan rekap data terstruktur"],
-        koneksi: ["Proteksi & Sinkronisasi", "Pengaturan kanal sinkronisasi sesi khusus Admin"]
+        koneksi: ["Status & Keamanan", "Informasi proteksi jalur sinkronisasi dan hak akses Admin"]
       };
 
       ["dashboard", "form", "direktori", "koneksi"].forEach(t => {
@@ -950,13 +953,13 @@
     function renderLogs() {
       const tbody = document.getElementById("activityLogBody");
       if (!activityLogs.length) {
-        tbody.innerHTML = `<tr><td colspan="4" class="py-4 text-center text-slate-400 text-xs">Belum ada riwayat aktivitas tercatat.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="4" class="py-4 text-center text-slate-400 text-xs">Riwayat aktivitas bersih / belum ada catatan.</td></tr>`;
         return;
       }
       tbody.innerHTML = activityLogs.slice(0, 15).map(log => {
         let badge = "bg-[#00A693]/15 text-[#00A693]";
         if (log.aksi === "EDIT") badge = "bg-[#FFEFC4] text-[#086288]";
-        if (log.aksi === "HAPUS") badge = "bg-red-100 text-red-700";
+        if (log.aksi === "HAPUS" || log.aksi === "BERSIHKAN") badge = "bg-red-100 text-red-700";
         return `
           <tr class="hover:bg-[#f4fbfa]">
             <td class="py-2.5 px-3 text-slate-500 whitespace-nowrap">${escapeHtml(log.waktu || "-")}</td>
@@ -966,6 +969,36 @@
           </tr>
         `;
       }).join("");
+    }
+
+    function requestClearLogs() {
+      if (!isAdmin) {
+        openPinModal("CLEAR_LOGS");
+        return;
+      }
+      executeClearLogs();
+    }
+
+    async function executeClearLogs() {
+      if (!confirm("Bersihkan seluruh riwayat aktivitas pada Log_Aktivitas dan aplikasi?")) return;
+
+      const url = getAppEndpoint();
+      if (url) {
+        try {
+          const json = await postToEndpoint(url, { action: "CLEAR_LOGS", pin: verifiedAdminPin });
+          if (json && json.status === "error") {
+            alert("Gagal membersihkan log di Spreadsheet: " + (json.message || "Error"));
+            return;
+          }
+        } catch (err) {
+          console.error(err);
+        }
+      }
+
+      activityLogs = [];
+      localStorage.setItem("wi_palsel_logs_v2", JSON.stringify(activityLogs));
+      renderLogs();
+      showToast("Riwayat aktivitas log telah dibersihkan.");
     }
 
     function setViewMode(mode) {
@@ -1041,19 +1074,18 @@
               <p><strong class="text-[#086288]">Alamat Lengkap:</strong> ${escapeHtml(k.alamat || "-")} (${escapeHtml(k.kecamatan || "Palu Selatan")})</p>
             </div>`
           : `<div class="bg-[#FFEFC4]/70 rounded-xl px-3 py-2 border border-[#086288]/15 text-[11px] font-bold text-[#086288] flex items-center justify-between">
-              <span>🔒 Alamat Detail, No. HP & Pekerjaan Terkunci</span>
+              <span>🔒 Alamat Detail, No. HP &amp; Pekerjaan Terkunci</span>
               <span class="text-[10px] uppercase bg-[#086288] text-white px-2 py-0.5 rounded">Admin</span>
             </div>`;
 
         return `
           <div class="bg-white rounded-2xl shadow-xs border-2 border-[#00A693]/35 hover:border-[#00A693] transition overflow-hidden flex flex-col justify-between">
             <div>
-              <!-- HEADER LOGO DENGAN NAMA PANGGILAN, MARHALAH & ALAMAT -->
               <div class="bg-gradient-to-r from-[#086288] via-[#0a7992] to-[#00A693] px-4 py-3.5 text-white space-y-2">
                 <div class="flex items-start justify-between gap-2.5">
                   <div class="flex items-start gap-2.5 min-w-0">
                     <div class="w-12 h-12 rounded-xl bg-[#FFEFC4] p-0.5 shrink-0 overflow-hidden border border-white/60">
-                      <img src="./Mwc%20palsel%20Palsel.jpeg" alt="MWC Palu Selatan" class="w-full h-full logo-frame rounded-lg" onerror="this.style.display='none'" />
+                      <img src="./Palsel.jpeg" alt="Logo Palu Selatan" class="w-full h-full logo-frame rounded-lg" onerror="this.style.display='none'" />
                     </div>
                     <div class="min-w-0">
                       <h3 class="font-extrabold text-sm sm:text-base leading-snug truncate">${escapeHtml(k.namaLengkap)}</h3>
@@ -1078,7 +1110,7 @@
                 </div>
 
                 <div>
-                  <p class="text-[11px] font-extrabold uppercase text-[#086288] mb-1.5">Pelatihan & Diklat</p>
+                  <p class="text-[11px] font-extrabold uppercase text-[#086288] mb-1.5">Pelatihan &amp; Diklat</p>
                   <div class="flex flex-wrap gap-1">
                     ${diklatBadges.length
                       ? diklatBadges.map(d => `<span class="px-2 py-0.5 rounded bg-[#f4fbfa] border border-[#00A693]/40 text-[#086288] text-[11px] font-bold">${escapeHtml(d)}</span>`).join("")
@@ -1188,6 +1220,9 @@
 
       const payloadData = {
         id: editId || ("PS-" + Date.now()),
+        timestamp: editId
+          ? (kaderData.find(item => item.id === editId)?.timestamp || new Date().toLocaleString("id-ID"))
+          : new Date().toLocaleString("id-ID"),
         namaLengkap: document.getElementById("namaLengkap").value.trim(),
         namaPanggilan: document.getElementById("namaPanggilan").value.trim(),
         alamat: document.getElementById("alamat").value.trim(),
@@ -1214,21 +1249,17 @@
       btn.innerHTML = `<span>⏳</span> Menyinkronkan ke Spreadsheet...`;
       updateSyncBadge("loading", "Mengirim ke Spreadsheet...");
 
-      const url = getSessionEndpoint();
+      const url = getAppEndpoint();
       const actionType = editId ? "UPDATE" : "CREATE";
       let syncedRemote = false;
 
       if (url) {
         try {
-          const res = await fetch(url, {
-            method: "POST",
-            body: JSON.stringify({ action: actionType, pin: verifiedAdminPin, data: payloadData })
-          });
-          const json = await res.json();
-          if (json.status !== "success") {
+          const json = await postToEndpoint(url, { action: actionType, pin: verifiedAdminPin, data: payloadData });
+          if (json && json.status === "error") {
             alert("Gagal menyinkronkan ke Spreadsheet: " + (json.message || "Error"));
             btn.disabled = false;
-            btn.innerHTML = `<span>💾</span> Simpan & Sinkronkan ke Spreadsheet`;
+            btn.innerHTML = `<span>💾</span> Simpan &amp; Sinkronkan ke Spreadsheet`;
             updateSyncBadge("error", "Gagal Sinkron");
             return;
           }
@@ -1266,12 +1297,11 @@
       localStorage.setItem("wi_palsel_logs_v2", JSON.stringify(activityLogs));
 
       btn.disabled = false;
-      btn.innerHTML = `<span>💾</span> Simpan & Sinkronkan ke Spreadsheet`;
+      btn.innerHTML = `<span>💾</span> Simpan &amp; Sinkronkan ke Spreadsheet`;
       resetForm();
       renderAll();
       if (syncedRemote) {
-        await loadInitialData(true);
-        renderAll();
+        setTimeout(() => loadInitialData(true), 1200);
       }
       switchTab("direktori");
     }
@@ -1285,7 +1315,7 @@
       document.getElementById("subTarbiyahBox").classList.add("hidden");
       document.getElementById("subTahsinBox").classList.add("hidden");
       document.getElementById("formTitle").textContent = "Formulir Pendataan Kader Baru";
-      document.getElementById("submitFormBtn").innerHTML = `<span>💾</span> Simpan & Sinkronkan ke Spreadsheet`;
+      document.getElementById("submitFormBtn").innerHTML = `<span>💾</span> Simpan &amp; Sinkronkan ke Spreadsheet`;
       document.getElementById("cancelEditBtn").classList.add("hidden");
     }
 
@@ -1325,16 +1355,16 @@
       btn.textContent = "Memeriksa...";
 
       let isValid = false;
-      const url = getSessionEndpoint();
+      const url = getAppEndpoint();
 
       if (url) {
         try {
-          const res = await fetch(url, {
-            method: "POST",
-            body: JSON.stringify({ action: "VERIFY_PIN", pin: pinVal })
-          });
-          const json = await res.json();
-          isValid = json.valid === true;
+          const json = await postToEndpoint(url, { action: "VERIFY_PIN", pin: pinVal });
+          if (json && json.opaque) {
+            isValid = (pinVal === FALLBACK_LOCAL_PIN);
+          } else {
+            isValid = Boolean(json && json.valid === true);
+          }
         } catch (err) {
           isValid = (pinVal === FALLBACK_LOCAL_PIN);
         }
@@ -1362,9 +1392,7 @@
       if (actionToRun) {
         if (actionToRun.type === "EDIT" && actionToRun.id) populateEditForm(actionToRun.id);
         else if (actionToRun.type === "DELETE" && actionToRun.id) executeDeleteKader(actionToRun.id);
-        else if (actionToRun.type === "CONFIGURE_ENDPOINT") {
-          document.getElementById("adminEndpointEditor").classList.remove("hidden");
-        }
+        else if (actionToRun.type === "CLEAR_LOGS") executeClearLogs();
       }
     }
 
@@ -1372,7 +1400,6 @@
       const btn = document.getElementById("adminToggleBtn");
       const label = document.getElementById("adminBtnLabel");
       const notice = document.getElementById("privacyNotice");
-      const editor = document.getElementById("adminEndpointEditor");
 
       if (isAdmin) {
         btn.className = "w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-[#00A693] text-white hover:bg-[#008b7b] font-extrabold text-xs shadow transition";
@@ -1382,7 +1409,6 @@
         btn.className = "w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-[#FFEFC4] text-[#086288] hover:bg-[#fae2a0] font-extrabold text-xs shadow transition";
         label.textContent = "Login PIN Admin";
         notice.classList.remove("hidden");
-        editor.classList.add("hidden");
       }
     }
 
@@ -1442,7 +1468,7 @@
       document.getElementById("statusDaiyah").value = k.daiyah || "Belum";
 
       document.getElementById("formTitle").textContent = "Edit Data Kader: " + k.namaLengkap;
-      document.getElementById("submitFormBtn").innerHTML = `<span>✅</span> Perbarui & Sinkronkan`;
+      document.getElementById("submitFormBtn").innerHTML = `<span>✅</span> Perbarui &amp; Sinkronkan`;
       document.getElementById("cancelEditBtn").classList.remove("hidden");
       switchTab("form");
     }
@@ -1460,15 +1486,11 @@
       if (!k) return;
       if (!confirm(`Hapus data kader "${k.namaLengkap}"?`)) return;
 
-      const url = getSessionEndpoint();
+      const url = getAppEndpoint();
       if (url) {
         try {
-          const res = await fetch(url, {
-            method: "POST",
-            body: JSON.stringify({ action: "DELETE", pin: verifiedAdminPin, id: id })
-          });
-          const json = await res.json();
-          if (json.status !== "success") {
+          const json = await postToEndpoint(url, { action: "DELETE", pin: verifiedAdminPin, id: id });
+          if (json && json.status === "error") {
             alert("Gagal menghapus data: " + (json.message || "Error"));
             return;
           }
@@ -1518,7 +1540,7 @@
           <div class="bg-gradient-to-r from-[#086288] to-[#00A693] text-white px-5 py-4 flex items-start justify-between gap-3">
             <div class="flex items-start gap-3 min-w-0">
               <div class="w-14 h-14 rounded-xl bg-[#FFEFC4] p-1 shrink-0 overflow-hidden border border-[#97D7FF]">
-                <img src="./Mwc%20palsel%20Palsel.jpeg" alt="Logo MWC Palu Selatan" class="w-full h-full logo-frame rounded-lg" onerror="this.style.display='none'" />
+                <img src="./Palsel.jpeg" alt="Logo Palu Selatan" class="w-full h-full logo-frame rounded-lg" onerror="this.style.display='none'" />
               </div>
               <div class="min-w-0 space-y-0.5">
                 <span class="text-[10px] uppercase tracking-widest text-[#FFEFC4] font-extrabold block truncate">DPC Wahdah Islamiyah Cabang Palu Selatan</span>
@@ -1562,28 +1584,28 @@
         showToast("Belum ada data untuk diekspor ke Excel.");
         return;
       }
-      const rows = kaderData.map((k, i) => {
+      const rows = kaderData.map((k) => {
         const a = k.amanah || {};
         return {
-          "No": i + 1,
           "ID": k.id,
-          "Nama Lengkap": k.namaLengkap,
-          "Nama Panggilan": k.namaPanggilan,
+          "Timestamp": k.timestamp || "-",
+          "Nama_Lengkap": k.namaLengkap,
+          "Nama_Panggilan": k.namaPanggilan,
           "Alamat": isAdmin ? k.alamat : "TERKUNCI (ADMIN)",
           "Kecamatan": k.kecamatan || "Palu Selatan",
-          "Nomor HP": isAdmin ? k.noHp : "TERKUNCI (ADMIN)",
+          "Nomor_HP": isAdmin ? k.noHp : "TERKUNCI (ADMIN)",
           "Pekerjaan": isAdmin ? k.pekerjaan : "TERKUNCI (ADMIN)",
           "Marhala": k.marhalah,
-          "Liqo Dirosa": a.dirosa ? "Ya" : "Tidak",
-          "Liqo Tarbiyah": a.tarbiyah ? "Ya" : "Tidak",
-          "Detail Tarbiyah": (a.tarbiyahList || []).join(", ") || "-",
-          "Liqo Tahsin": a.tahsin ? "Ya" : "Tidak",
-          "Detail Tahsin": (a.tahsinList || []).join(", ") || "-",
-          "Pelatihan DM": (k.pelatihanDM || []).join(", ") || "Belum",
-          "DMC": k.dmc || "Belum",
-          "PPD": k.ppd || "Belum",
-          "Diklat Kepemimpinan": k.dk || "Belum",
-          "Diklat Daiyah": k.daiyah || "Belum"
+          "Amanah_Liqo_Dirosa": Boolean(a.dirosa),
+          "Amanah_Liqo_Tarbiyah": Boolean(a.tarbiyah),
+          "Detail_Liqo_Tarbiyah": (a.tarbiyahList || []).join(", "),
+          "Amanah_Liqo_Tahsin": Boolean(a.tahsin),
+          "Detail_Liqo_Tahsin": (a.tahsinList || []).join(", "),
+          "Pelatihan_DM": (k.pelatihanDM || []).join(", "),
+          "Diklat_Murobbiyah_DMC": k.dmc || "Belum",
+          "PPD_Dirosa": k.ppd || "Belum",
+          "Diklat_Kepemimpinan": k.dk || "Belum",
+          "Diklat_Daiyah": k.daiyah || "Belum"
         };
       });
 
