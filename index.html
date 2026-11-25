@@ -1,0 +1,1532 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DPC Wahdah Islamiyah Cabang Palu Selatan - Sistem Data Kader</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #086288;
+      --secondary: #4D8DBA;
+      --accent-sky: #97D7FF;
+      --accent-cream: #FFEFC4;
+    }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #f0f6fa;
+      color: #0f293a;
+    }
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #e2eef5; }
+    ::-webkit-scrollbar-thumb { background: #4D8DBA; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #086288; }
+
+    .nav-active {
+      background-color: #4D8DBA;
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      border-left: 4px solid #FFEFC4;
+    }
+    .nav-inactive {
+      color: #d8f0ff;
+      border-left: 4px solid transparent;
+    }
+    .nav-inactive:hover {
+      background-color: rgba(151, 215, 255, 0.14);
+      color: #ffffff;
+    }
+
+    @media print {
+      .no-print { display: none !important; }
+      body { background-color: #ffffff !important; }
+      .print-full { width: 100% !important; max-width: 100% !important; margin: 0 !important; padding: 0 !important; }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex bg-[#f0f6fa]">
+
+  <!-- OVERLAY SIDEBAR MOBILE -->
+  <div id="sidebarOverlay" onclick="closeSidebar()" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs hidden z-40 lg:hidden no-print"></div>
+
+  <!-- SIDEBAR NAVIGASI KIRI DENGAN LOGO -->
+  <aside id="sidebar" class="fixed lg:sticky top-0 left-0 z-50 h-screen w-72 bg-[#086288] text-white flex flex-col justify-between shadow-2xl transform -translate-x-full lg:translate-x-0 transition-transform duration-300 no-print shrink-0">
+    <div>
+      <!-- LOGO & IDENTITAS LEMBAGA -->
+      <div class="p-5 border-b border-[#4D8DBA]/50 bg-[#064d6b]">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <!-- Logo Emblem SVG Kustom -->
+            <div class="w-12 h-12 rounded-2xl bg-[#FFEFC4] p-1.5 shadow-md flex items-center justify-center shrink-0">
+              <svg viewBox="0 0 64 64" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="32" cy="32" r="29" fill="#086288" stroke="#4D8DBA" stroke-width="2.5"/>
+                <path d="M41 18 A15 15 0 1 0 44 45 A12 12 0 1 1 41 18 Z" fill="#FFEFC4"/>
+                <polygon points="45,17 46.8,21 51,21.5 47.8,24.3 48.7,28.5 45,26.3 41.3,28.5 42.2,24.3 39,21.5 43.2,21" fill="#97D7FF"/>
+                <text x="32" y="54" text-anchor="middle" fill="#FFEFC4" font-size="7.5" font-weight="800" font-family="sans-serif">WI • PALSEL</text>
+              </svg>
+            </div>
+            <div>
+              <span class="block text-[10px] font-extrabold uppercase tracking-widest text-[#97D7FF]">DPC Palu Selatan</span>
+              <span class="block text-sm font-extrabold leading-tight text-white">Wahdah Islamiyah</span>
+            </div>
+          </div>
+          <button onclick="closeSidebar()" class="lg:hidden text-[#97D7FF] hover:text-white text-xl font-bold px-2">✕</button>
+        </div>
+        <p class="mt-3 text-[11px] text-[#d8f0ff] bg-[#086288]/80 px-3 py-1.5 rounded-lg border border-[#4D8DBA]/40">
+          Kecamatan Palu Selatan, Kota Palu
+        </p>
+      </div>
+
+      <!-- MENU NAVIGASI -->
+      <nav class="p-3 space-y-1.5 mt-2">
+        <button onclick="switchTab('dashboard'); closeSidebar();" id="nav-dashboard" class="nav-active w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-sm transition text-left">
+          <span class="text-lg">📊</span>
+          <span>Dashboard & Diagram</span>
+        </button>
+
+        <button onclick="switchTab('form'); closeSidebar();" id="nav-form" class="nav-inactive w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-sm transition text-left">
+          <span class="text-lg">📝</span>
+          <span>Formulir Data Kader</span>
+        </button>
+
+        <button onclick="switchTab('direktori'); closeSidebar();" id="nav-direktori" class="nav-inactive w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-sm transition text-left">
+          <span class="text-lg">🪪</span>
+          <span>Direktori & Kartu Kader</span>
+        </button>
+
+        <button onclick="switchTab('koneksi'); closeSidebar();" id="nav-koneksi" class="nav-inactive w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-sm transition text-left">
+          <span class="text-lg">⚙️</span>
+          <span>Koneksi Spreadsheet</span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- PANEL STATUS & ADMIN DI BAGIAN BAWAH SIDEBAR -->
+    <div class="p-4 border-t border-[#4D8DBA]/50 bg-[#064d6b] space-y-3">
+      <div class="flex items-center gap-2 text-xs">
+        <span id="syncDot" class="w-2.5 h-2.5 rounded-full bg-amber-400 shrink-0"></span>
+        <span id="syncText" class="text-[#d8f0ff] truncate">Mode Lokal</span>
+      </div>
+
+      <button id="adminToggleBtn" onclick="toggleAdminAuth()" class="w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-[#FFEFC4] text-[#086288] hover:bg-[#fae2a0] font-extrabold text-xs shadow transition">
+        <span>🔐</span>
+        <span id="adminBtnLabel">Login PIN Admin</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- AREA KONTEN UTAMA -->
+  <div class="flex-1 flex flex-col min-w-0 print-full">
+
+    <!-- TOPBAR -->
+    <header class="bg-white border-b border-[#97D7FF] sticky top-0 z-30 shadow-xs no-print">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <button onclick="openSidebar()" class="lg:hidden p-2 rounded-xl bg-[#086288] text-white font-bold">
+            ☰
+          </button>
+          <div>
+            <h1 id="pageTitle" class="text-base sm:text-xl font-extrabold text-[#086288] leading-tight">
+              DPC Wahdah Islamiyah Cabang Palu Selatan
+            </h1>
+            <p id="pageSubtitle" class="text-xs text-[#4D8DBA] font-medium">
+              Rekapitulasi Kader, Diagram Statistik, Kartu Kader & Sinkronisasi Spreadsheet
+            </p>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2">
+          <button onclick="refreshData()" class="px-3 py-2 rounded-xl bg-[#e6f4fd] hover:bg-[#97D7FF]/50 text-[#086288] font-bold text-xs flex items-center gap-1.5 transition" title="Sinkronisasi Spreadsheet">
+            <span>🔄</span>
+            <span class="hidden sm:inline">Sinkron</span>
+          </button>
+
+          <button onclick="exportExcel()" class="px-3.5 py-2 rounded-xl bg-[#086288] hover:bg-[#064d6b] text-white font-bold text-xs flex items-center gap-1.5 shadow-xs transition">
+            <span>📗</span>
+            <span>Save Excel</span>
+          </button>
+
+          <button onclick="saveAsPDF()" class="px-3.5 py-2 rounded-xl bg-[#FFEFC4] hover:bg-[#fae2a0] text-[#086288] border border-[#086288]/20 font-extrabold text-xs flex items-center gap-1.5 shadow-xs transition">
+            <span>📄</span>
+            <span>Save PDF</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN WORKSPACE -->
+    <main class="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6 flex-1">
+
+      <!-- ==================== TAB 1: DASHBOARD & DIAGRAM ==================== -->
+      <section id="tab-dashboard" class="space-y-6">
+        <!-- Banner Keamanan Data -->
+        <div id="privacyNotice" class="bg-[#FFEFC4] border-l-4 border-[#086288] p-4 rounded-r-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs no-print">
+          <div class="flex items-start sm:items-center gap-3">
+            <span class="text-xl">🛡️</span>
+            <p class="text-xs sm:text-sm text-[#086288] font-medium">
+              <strong>Keamanan Privasi Aktif:</strong> Alamat, Nomor HP, dan Pekerjaan disembunyikan di layar publik, serta Edit/Hapus dikunci dengan <strong>PIN Admin</strong>.
+            </p>
+          </div>
+          <button onclick="openPinModal('UNLOCK_ADMIN')" class="shrink-0 px-3.5 py-1.5 bg-[#086288] text-white text-xs font-bold rounded-lg hover:bg-[#064d6b] transition">
+            Buka Kunci Admin
+          </button>
+        </div>
+
+        <!-- 4 KARTU RINGKASAN -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+          <div class="bg-white rounded-2xl p-5 shadow-xs border border-[#97D7FF] relative overflow-hidden">
+            <div class="absolute -right-4 -top-4 w-20 h-20 rounded-full bg-[#97D7FF]/30"></div>
+            <p class="text-xs font-bold uppercase tracking-wider text-[#4D8DBA]">Total Kader Terdata</p>
+            <p id="statTotalKader" class="text-3xl font-extrabold text-[#086288] mt-1.5">0</p>
+            <p class="text-xs text-slate-500 mt-1">DPC Palu Selatan</p>
+          </div>
+
+          <div class="bg-white rounded-2xl p-5 shadow-xs border border-[#97D7FF] relative overflow-hidden">
+            <div class="absolute -right-4 -top-4 w-20 h-20 rounded-full bg-[#FFEFC4]/80"></div>
+            <p class="text-xs font-bold uppercase tracking-wider text-[#4D8DBA]">Pemegang Amanah Liqo</p>
+            <p id="statPemegangLiqo" class="text-3xl font-extrabold text-[#086288] mt-1.5">0</p>
+            <p id="statPemegangLiqoPct" class="text-xs text-slate-500 mt-1">0% dari total kader</p>
+          </div>
+
+          <div class="bg-white rounded-2xl p-5 shadow-xs border border-[#97D7FF] relative overflow-hidden">
+            <div class="absolute -right-4 -top-4 w-20 h-20 rounded-full bg-[#97D7FF]/30"></div>
+            <p class="text-xs font-bold uppercase tracking-wider text-[#4D8DBA]">Lulusan DMC</p>
+            <p id="statSudahDMC" class="text-3xl font-extrabold text-[#086288] mt-1.5">0</p>
+            <p class="text-xs text-slate-500 mt-1">Diklat Murobbiyah</p>
+          </div>
+
+          <div class="bg-white rounded-2xl p-5 shadow-xs border border-[#97D7FF] relative overflow-hidden">
+            <div class="absolute -right-4 -top-4 w-20 h-20 rounded-full bg-[#FFEFC4]/80"></div>
+            <p class="text-xs font-bold uppercase tracking-wider text-[#4D8DBA]">Pengajar Dirosa (PPD)</p>
+            <p id="statSudahPPD" class="text-3xl font-extrabold text-[#086288] mt-1.5">0</p>
+            <p class="text-xs text-slate-500 mt-1">Pelatihan Pengajar Dirosa</p>
+          </div>
+        </div>
+
+        <!-- DIAGRAM CHART.JS: MARHALAH & AMANAH LIQO -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="bg-white rounded-2xl p-6 shadow-xs border border-[#97D7FF]">
+            <div class="flex items-center justify-between mb-3">
+              <div>
+                <h2 class="text-base font-extrabold text-[#086288]">Diagram Sebaran Marhala Kader</h2>
+                <p class="text-xs text-slate-500">Distribusi Ta'arif 1, Ta'arif 2, Takwin 1, Takwin 2 & Tanfis</p>
+              </div>
+              <span class="px-2.5 py-1 rounded-full bg-[#e6f4fd] text-[#086288] text-xs font-bold">Bar Chart</span>
+            </div>
+            <div class="h-64">
+              <canvas id="chartMarhalah"></canvas>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl p-6 shadow-xs border border-[#97D7FF]">
+            <div class="flex items-center justify-between mb-3">
+              <div>
+                <h2 class="text-base font-extrabold text-[#086288]">Diagram Amanah Liqo Saat Ini</h2>
+                <p class="text-xs text-slate-500">Perbandingan Liqo Dirosa, Liqo Tarbiyah & Liqo Tahsin</p>
+              </div>
+              <span class="px-2.5 py-1 rounded-full bg-[#FFEFC4] text-[#086288] text-xs font-bold">Doughnut</span>
+            </div>
+            <div class="h-64 flex items-center justify-center">
+              <canvas id="chartAmanah"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- DIAGRAM PELATIHAN & DIKLAT -->
+        <div class="bg-white rounded-2xl p-6 shadow-xs border border-[#97D7FF]">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+            <div>
+              <h2 class="text-base font-extrabold text-[#086288]">Diagram Rekapitulasi Pelatihan & Diklat</h2>
+              <p class="text-xs text-slate-500">Jumlah kader berdasarkan DM 1, DM 2, DMC, PPD, DK 1, DK 2, Diklat Daiyah 1 & 2</p>
+            </div>
+            <span class="px-3 py-1 rounded-full bg-[#086288] text-white text-xs font-bold self-start">8 Indikator Diklat</span>
+          </div>
+          <div class="h-72">
+            <canvas id="chartDiklat"></canvas>
+          </div>
+        </div>
+
+        <!-- LOG AKTIVITAS TERBARU -->
+        <div class="bg-white rounded-2xl p-6 shadow-xs border border-[#97D7FF]">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-base font-extrabold text-[#086288]">Log Aktivitas & Sinkronisasi Data</h2>
+            <span class="text-xs font-bold text-[#4D8DBA]">Riwayat Terbaru</span>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="bg-[#086288] text-white text-xs uppercase">
+                  <th class="py-2.5 px-3 rounded-tl-lg">Waktu</th>
+                  <th class="py-2.5 px-3">Aksi</th>
+                  <th class="py-2.5 px-3">Nama Kader</th>
+                  <th class="py-2.5 px-3 rounded-tr-lg">Keterangan</th>
+                </tr>
+              </thead>
+              <tbody id="activityLogBody" class="divide-y divide-slate-100 text-xs sm:text-sm"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== TAB 2: FORMULIR INPUT / EDIT KADER ==================== -->
+      <section id="tab-form" class="hidden no-print">
+        <div class="bg-white rounded-2xl shadow-xs border border-[#97D7FF] overflow-hidden">
+          <div class="bg-[#086288] px-6 py-4 text-white flex items-center justify-between">
+            <div>
+              <h2 id="formTitle" class="text-lg font-extrabold">Formulir Pendataan Kader Baru</h2>
+              <p class="text-xs text-[#97D7FF]">DPC Wahdah Islamiyah Cabang Palu Selatan</p>
+            </div>
+            <button id="cancelEditBtn" onclick="resetForm()" class="hidden px-3 py-1.5 rounded-lg bg-[#FFEFC4] text-[#086288] text-xs font-bold">
+              Batal Edit
+            </button>
+          </div>
+
+          <form id="kaderForm" onsubmit="handleFormSubmit(event)" class="p-6 space-y-7">
+            <input type="hidden" id="editKaderId" value="" />
+
+            <!-- BAGIAN 1: IDENTITAS & MARHALA -->
+            <div>
+              <h3 class="text-sm font-extrabold uppercase tracking-wider text-[#086288] border-b-2 border-[#97D7FF] pb-2 mb-4">
+                1. Identitas Pribadi & Marhala
+              </h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">Nama Lengkap (Gelar Jika Ada) <span class="text-red-500">*</span></label>
+                  <input type="text" id="namaLengkap" required placeholder="Contoh: Ust. Nurhayati, S.Pd."
+                    class="w-full px-3.5 py-2.5 rounded-xl border border-[#4D8DBA]/60 focus:outline-none focus:ring-2 focus:ring-[#086288] text-sm" />
+                </div>
+
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">Nama Panggilan <span class="text-red-500">*</span></label>
+                  <input type="text" id="namaPanggilan" required placeholder="Contoh: Umi Nur"
+                    class="w-full px-3.5 py-2.5 rounded-xl border border-[#4D8DBA]/60 focus:outline-none focus:ring-2 focus:ring-[#086288] text-sm" />
+                </div>
+
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">Alamat <span class="text-red-500">*</span></label>
+                  <input type="text" id="alamat" required placeholder="Contoh: Jl. Dewi Sartika No. 14"
+                    class="w-full px-3.5 py-2.5 rounded-xl border border-[#4D8DBA]/60 focus:outline-none focus:ring-2 focus:ring-[#086288] text-sm" />
+                  <p class="text-[11px] text-[#4D8DBA] mt-1">🔒 Disembunyikan pada layar publik (Hanya Admin)</p>
+                </div>
+
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">Kecamatan <span class="text-red-500">*</span></label>
+                  <input type="text" id="kecamatan" value="Palu Selatan" required
+                    class="w-full px-3.5 py-2.5 rounded-xl border border-[#4D8DBA]/60 bg-[#f4faff] font-bold text-[#086288] focus:outline-none focus:ring-2 focus:ring-[#086288] text-sm" />
+                </div>
+
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">Nomor HP <span class="text-red-500">*</span></label>
+                  <input type="tel" id="noHp" required placeholder="Contoh: 081234567890"
+                    class="w-full px-3.5 py-2.5 rounded-xl border border-[#4D8DBA]/60 focus:outline-none focus:ring-2 focus:ring-[#086288] text-sm" />
+                  <p class="text-[11px] text-[#4D8DBA] mt-1">🔒 Disembunyikan pada layar publik (Hanya Admin)</p>
+                </div>
+
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">Pekerjaan <span class="text-red-500">*</span></label>
+                  <select id="pekerjaanSelect" onchange="togglePekerjaanLainnya()" required
+                    class="w-full px-3.5 py-2.5 rounded-xl border border-[#4D8DBA]/60 focus:outline-none focus:ring-2 focus:ring-[#086288] text-sm bg-white">
+                    <option value="">-- Pilih Pekerjaan --</option>
+                    <option value="Mahasiswa">Mahasiswa</option>
+                    <option value="IRT">IRT</option>
+                    <option value="Pedagang">Pedagang</option>
+                    <option value="ASN">ASN</option>
+                    <option value="Dosen">Dosen</option>
+                    <option value="Guru">Guru</option>
+                    <option value="Pengajar Qur'an dan/atau Murobbiyah">Pengajar Qur'an dan/atau Murobbiyah</option>
+                    <option value="Lainnya">Lainnya (Sebutkan)</option>
+                  </select>
+                  <input type="text" id="pekerjaanLainnya" placeholder="Sebutkan pekerjaan..."
+                    class="hidden mt-2 w-full px-3.5 py-2 rounded-xl border border-[#086288] bg-[#FFEFC4]/30 focus:outline-none focus:ring-2 focus:ring-[#086288] text-sm" />
+                  <p class="text-[11px] text-[#4D8DBA] mt-1">🔒 Disembunyikan pada layar publik (Hanya Admin)</p>
+                </div>
+
+                <div class="md:col-span-2">
+                  <label class="block text-xs font-bold text-slate-700 mb-1">Marhala <span class="text-red-500">*</span></label>
+                  <select id="marhalah" required
+                    class="w-full px-3.5 py-2.5 rounded-xl border border-[#4D8DBA]/60 focus:outline-none focus:ring-2 focus:ring-[#086288] text-sm bg-white font-bold text-[#086288]">
+                    <option value="Ta'arif 1">Ta'arif 1</option>
+                    <option value="Ta'rif 2">Ta'arif 2</option>
+                    <option value="Takwin 1">Takwin 1</option>
+                    <option value="Takwin 2">Takwin 2</option>
+                    <option value="Tanfis">Tanfis</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- BAGIAN 2: AMANAH SAAT INI (DALAM LEMBAGA) -->
+            <div>
+              <h3 class="text-sm font-extrabold uppercase tracking-wider text-[#086288] border-b-2 border-[#97D7FF] pb-2 mb-2">
+                2. Amanah Saat Ini (Dalam Lembaga)
+              </h3>
+              <p class="text-xs text-slate-500 mb-4">Dapat memilih lebih dari 1 pilihan:</p>
+
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="p-4 rounded-xl border-2 border-[#97D7FF] bg-[#f8fcff]">
+                  <label class="flex items-center gap-3 cursor-pointer">
+                    <input type="checkbox" id="amanahDirosa" class="w-5 h-5 accent-[#086288] rounded" />
+                    <div>
+                      <span class="block text-sm font-extrabold text-[#086288]">Memegang Liqo Dirosa</span>
+                      <span class="text-[11px] text-slate-500">Amanah binaan Liqo Dirosa</span>
+                    </div>
+                  </label>
+                </div>
+
+                <div class="p-4 rounded-xl border-2 border-[#97D7FF] bg-[#f8fcff] space-y-3">
+                  <label class="flex items-center gap-3 cursor-pointer">
+                    <input type="checkbox" id="amanahTarbiyah" onchange="toggleSubAmanah('tarbiyah')" class="w-5 h-5 accent-[#086288] rounded" />
+                    <div>
+                      <span class="block text-sm font-extrabold text-[#086288]">Memegang Liqo Tarbiyah</span>
+                      <span class="text-[11px] text-slate-500">Pilih jenjang liqo tarbiyah</span>
+                    </div>
+                  </label>
+                  <div id="subTarbiyahBox" class="hidden pl-8 pt-2 border-t border-[#97D7FF] space-y-2">
+                    <label class="flex items-center gap-2 text-xs font-semibold text-slate-700 cursor-pointer">
+                      <input type="checkbox" name="tarbiyahLevel" value="Liqo Ta'rif 1" class="accent-[#086288] w-4 h-4" /> Liqo Ta'rif 1
+                    </label>
+                    <label class="flex items-center gap-2 text-xs font-semibold text-slate-700 cursor-pointer">
+                      <input type="checkbox" name="tarbiyahLevel" value="Ta'rif 2" class="accent-[#086288] w-4 h-4" /> Ta'rif 2
+                    </label>
+                    <label class="flex items-center gap-2 text-xs font-semibold text-slate-700 cursor-pointer">
+                      <input type="checkbox" name="tarbiyahLevel" value="Takwin 1" class="accent-[#086288] w-4 h-4" /> Takwin 1
+                    </label>
+                    <label class="flex items-center gap-2 text-xs font-semibold text-slate-700 cursor-pointer">
+                      <input type="checkbox" name="tarbiyahLevel" value="Takwin 2" class="accent-[#086288] w-4 h-4" /> Takwin 2
+                    </label>
+                  </div>
+                </div>
+
+                <div class="p-4 rounded-xl border-2 border-[#97D7FF] bg-[#f8fcff] space-y-3">
+                  <label class="flex items-center gap-3 cursor-pointer">
+                    <input type="checkbox" id="amanahTahsin" onchange="toggleSubAmanah('tahsin')" class="w-5 h-5 accent-[#086288] rounded" />
+                    <div>
+                      <span class="block text-sm font-extrabold text-[#086288]">Memegang Liqo Tahsin</span>
+                      <span class="text-[11px] text-slate-500">Pilih tingkatan tahsin</span>
+                    </div>
+                  </label>
+                  <div id="subTahsinBox" class="hidden pl-8 pt-2 border-t border-[#97D7FF] space-y-2">
+                    <label class="flex items-center gap-2 text-xs font-semibold text-slate-700 cursor-pointer">
+                      <input type="checkbox" name="tahsinLevel" value="Tahsin 1" class="accent-[#086288] w-4 h-4" /> Tahsin 1
+                    </label>
+                    <label class="flex items-center gap-2 text-xs font-semibold text-slate-700 cursor-pointer">
+                      <input type="checkbox" name="tahsinLevel" value="Tahsin 2" class="accent-[#086288] w-4 h-4" /> Tahsin 2
+                    </label>
+                    <label class="flex items-center gap-2 text-xs font-semibold text-slate-700 cursor-pointer">
+                      <input type="checkbox" name="tahsinLevel" value="Tahsin 3" class="accent-[#086288] w-4 h-4" /> Tahsin 3
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- BAGIAN 3: PELATIHAN & DIKLAT -->
+            <div>
+              <h3 class="text-sm font-extrabold uppercase tracking-wider text-[#086288] border-b-2 border-[#97D7FF] pb-2 mb-4">
+                3. Pelatihan & Diklat yang Sudah Diikuti
+              </h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="p-4 rounded-xl border border-[#97D7FF] bg-[#f8fcff]">
+                  <label class="block text-xs font-extrabold text-[#086288] mb-2.5">Pelatihan yang Sudah Diikuti</label>
+                  <div class="flex flex-wrap gap-3">
+                    <label class="flex items-center gap-2 text-xs font-bold text-slate-700 cursor-pointer bg-white px-3 py-2 rounded-lg border border-[#4D8DBA]/40">
+                      <input type="checkbox" name="pelatihanDM" value="DM 1" class="w-4 h-4 accent-[#086288]" /> DM 1
+                    </label>
+                    <label class="flex items-center gap-2 text-xs font-bold text-slate-700 cursor-pointer bg-white px-3 py-2 rounded-lg border border-[#4D8DBA]/40">
+                      <input type="checkbox" name="pelatihanDM" value="DM 2" class="w-4 h-4 accent-[#086288]" /> DM 2
+                    </label>
+                  </div>
+                </div>
+
+                <div class="p-4 rounded-xl border border-[#97D7FF] bg-[#f8fcff]">
+                  <label class="block text-xs font-extrabold text-[#086288] mb-2">Sudah Pernah Mengikuti Diklat Murobbiyah (DMC)?</label>
+                  <select id="statusDMC" class="w-full px-3 py-2 rounded-lg border border-[#4D8DBA]/60 bg-white text-xs font-bold text-[#086288]">
+                    <option value="Belum">Belum</option>
+                    <option value="Sudah">Sudah</option>
+                  </select>
+                </div>
+
+                <div class="p-4 rounded-xl border border-[#97D7FF] bg-[#f8fcff]">
+                  <label class="block text-xs font-extrabold text-[#086288] mb-2">Sudah Pernah Mengikuti PPD (Pelatihan Pengajar Dirosa)?</label>
+                  <select id="statusPPD" class="w-full px-3 py-2 rounded-lg border border-[#4D8DBA]/60 bg-white text-xs font-bold text-[#086288]">
+                    <option value="Belum">Belum</option>
+                    <option value="Sudah">Sudah</option>
+                  </select>
+                </div>
+
+                <div class="p-4 rounded-xl border border-[#97D7FF] bg-[#f8fcff]">
+                  <label class="block text-xs font-extrabold text-[#086288] mb-2">Sudah Pernah Mengikuti Diklat Kepemimpinan?</label>
+                  <select id="statusDK" class="w-full px-3 py-2 rounded-lg border border-[#4D8DBA]/60 bg-white text-xs font-bold text-[#086288]">
+                    <option value="Belum">Belum</option>
+                    <option value="DK 1">DK 1</option>
+                    <option value="DK 2">DK 2</option>
+                  </select>
+                </div>
+
+                <div class="p-4 rounded-xl border border-[#97D7FF] bg-[#f8fcff]">
+                  <label class="block text-xs font-extrabold text-[#086288] mb-2">Sudah Pernah Mengikuti Diklat Daiyah?</label>
+                  <select id="statusDaiyah" class="w-full px-3 py-2 rounded-lg border border-[#4D8DBA]/60 bg-white text-xs font-bold text-[#086288]">
+                    <option value="Belum">Belum</option>
+                    <option value="Diklat Daiyah 1">Diklat Daiyah 1</option>
+                    <option value="Diklat Daiyah 2">Diklat Daiyah 2</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="pt-4 border-t border-slate-200 flex flex-wrap items-center justify-end gap-3">
+              <button type="button" onclick="resetForm()" class="px-5 py-2.5 rounded-xl border border-slate-300 text-slate-700 font-bold text-sm hover:bg-slate-50 transition">
+                Reset
+              </button>
+              <button type="submit" id="submitFormBtn" class="px-6 py-2.5 rounded-xl bg-[#086288] hover:bg-[#064d6b] text-white font-extrabold text-sm shadow-md transition flex items-center gap-2">
+                <span>💾</span> Simpan & Sinkronkan ke Spreadsheet
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- ==================== TAB 3: DIREKTORI & KARTU KADER ==================== -->
+      <section id="tab-direktori" class="hidden space-y-6">
+        <!-- Filter & Mode Tampilan -->
+        <div class="bg-white rounded-2xl p-4 shadow-xs border border-[#97D7FF] flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between no-print">
+          <div class="flex flex-col sm:flex-row gap-2.5 flex-1">
+            <input type="text" id="searchInput" oninput="renderDirectory()" placeholder="Cari nama lengkap atau panggilan..."
+              class="flex-1 px-4 py-2 rounded-xl border border-[#4D8DBA]/50 text-sm focus:outline-none focus:ring-2 focus:ring-[#086288]" />
+            <select id="filterMarhalah" onchange="renderDirectory()" class="px-3.5 py-2 rounded-xl border border-[#4D8DBA]/50 text-sm bg-white font-semibold text-[#086288]">
+              <option value="ALL">Semua Marhala</option>
+              <option value="Ta'arif 1">Ta'arif 1</option>
+              <option value="Ta'rif 2">Ta'arif 2</option>
+              <option value="Takwin 1">Takwin 1</option>
+              <option value="Takwin 2">Takwin 2</option>
+              <option value="Tanfis">Tanfis</option>
+            </select>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button onclick="setViewMode('cards')" id="btnViewCards" class="px-3.5 py-2 rounded-xl bg-[#086288] text-white font-bold text-xs transition">
+              🪪 Kartu Kader
+            </button>
+            <button onclick="setViewMode('table')" id="btnViewTable" class="px-3.5 py-2 rounded-xl bg-[#e6f4fd] text-[#086288] font-bold text-xs transition">
+              📋 Tabel Data
+            </button>
+          </div>
+        </div>
+
+        <!-- TAMPILAN KARTU KADER -->
+        <div id="cardsViewContainer" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5"></div>
+
+        <!-- TAMPILAN TABEL KADER -->
+        <div id="tableViewContainer" class="hidden bg-white rounded-2xl shadow-xs border border-[#97D7FF] overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="bg-[#086288] text-white text-xs uppercase tracking-wider">
+                  <th class="py-3.5 px-4">No</th>
+                  <th class="py-3.5 px-4">Nama & Panggilan</th>
+                  <th class="py-3.5 px-4">Marhala</th>
+                  <th class="py-3.5 px-4">Data Privat (Admin)</th>
+                  <th class="py-3.5 px-4">Amanah Liqo</th>
+                  <th class="py-3.5 px-4">Diklat & Pelatihan</th>
+                  <th class="py-3.5 px-4 text-center no-print">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="kaderTableBody" class="divide-y divide-slate-200 text-sm"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== TAB 4: KONEKSI SPREADSHEET ==================== -->
+      <section id="tab-koneksi" class="hidden space-y-6 no-print">
+        <div class="bg-white rounded-2xl p-6 shadow-xs border border-[#97D7FF] space-y-5">
+          <div class="border-b border-slate-200 pb-4">
+            <h2 class="text-lg font-extrabold text-[#086288]">Interkoneksi Google Spreadsheet & GitHub Pages</h2>
+            <p class="text-xs sm:text-sm text-slate-600 mt-1">
+              Hubungkan aplikasi dengan Web App Google Apps Script (<code class="font-bold text-[#086288]">.../exec</code>) agar seluruh data kader tersimpan otomatis ke Google Sheets.
+            </p>
+          </div>
+
+          <div class="space-y-3">
+            <label class="block text-xs font-extrabold uppercase tracking-wider text-[#086288]">
+              URL Web App Google Apps Script
+            </label>
+            <div class="flex flex-col sm:flex-row gap-2.5">
+              <input type="url" id="gasUrlInput" placeholder="https://script.google.com/macros/s/AKfycbxffK5DGgoCeSgpo18Ke0X0XR0bwZGRRfFrGpVnJxgGp-qxWe83kOZKgXBDg2WWp9jI/exec"
+                class="flex-1 px-4 py-2.5 rounded-xl border border-[#4D8DBA] text-sm focus:outline-none focus:ring-2 focus:ring-[#086288]" />
+              <button onclick="saveGasUrl()" class="px-5 py-2.5 rounded-xl bg-[#086288] hover:bg-[#064d6b] text-white font-bold text-sm transition">
+                Simpan & Sinkronkan
+              </button>
+            </div>
+            <p class="text-xs text-slate-500">
+              * Untuk GitHub Pages permanen, tempelkan juga URL ini ke dalam variabel <code class="bg-slate-100 px-1.5 py-0.5 rounded font-bold text-[#086288]">const DEFAULT_GAS_URL = "...";</code> di bagian bawah file <code class="bg-slate-100 px-1.5 py-0.5 rounded">index.html</code>.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-[#086288] text-white py-4 mt-8 border-t-4 border-[#FFEFC4] no-print">
+      <div class="max-w-7xl mx-auto px-4 text-center text-xs">
+        <p class="font-bold">DPC Wahdah Islamiyah Cabang Palu Selatan</p>
+        <p class="text-[#97D7FF] mt-0.5">Sistem Informasi Pendataan Kader, Amanah Lembaga & Riwayat Diklat</p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ==================== MODAL PIN ADMIN ==================== -->
+  <div id="pinModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs hidden items-center justify-center z-50 p-4 no-print">
+    <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl border-2 border-[#086288] space-y-4">
+      <div class="text-center">
+        <div class="w-12 h-12 rounded-full bg-[#FFEFC4] text-[#086288] mx-auto flex items-center justify-center text-xl font-bold mb-2">
+          🔐
+        </div>
+        <h3 class="text-lg font-extrabold text-[#086288]">Otorisasi PIN Admin</h3>
+        <p class="text-xs text-slate-600 mt-1">Masukkan PIN Admin untuk melihat data sensitif, mengubah, atau menghapus data kader.</p>
+      </div>
+
+      <div>
+        <input type="password" id="pinInput" maxlength="12" placeholder="Masukkan PIN Admin..."
+          onkeydown="if(event.key==='Enter') verifyPinAction()"
+          class="w-full text-center tracking-widest text-lg font-extrabold px-4 py-3 rounded-xl border-2 border-[#4D8DBA] focus:outline-none focus:border-[#086288]" />
+        <p id="pinErrorMsg" class="text-xs text-red-600 font-semibold text-center mt-1.5 hidden">PIN Admin salah! Silakan coba lagi.</p>
+      </div>
+
+      <div class="flex gap-2.5 pt-2">
+        <button onclick="closePinModal()" class="flex-1 py-2.5 rounded-xl border border-slate-300 text-slate-700 font-bold text-xs hover:bg-slate-50">
+          Batal
+        </button>
+        <button onclick="verifyPinAction()" id="confirmPinBtn" class="flex-1 py-2.5 rounded-xl bg-[#086288] text-white font-bold text-xs hover:bg-[#064d6b]">
+          Verifikasi PIN
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL DETAIL & CETAK KARTU KADER ==================== -->
+  <div id="detailModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs hidden items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border-2 border-[#086288]">
+      <div class="bg-[#086288] px-6 py-4 text-white flex items-center justify-between sticky top-0 no-print">
+        <h3 class="font-extrabold text-base">Kartu & Rincian Profil Kader</h3>
+        <div class="flex items-center gap-2">
+          <button onclick="window.print()" class="px-3 py-1 rounded-lg bg-[#FFEFC4] text-[#086288] text-xs font-extrabold hover:bg-[#fae2a0]">
+            🖨️ Cetak / PDF
+          </button>
+          <button onclick="closeDetailModal()" class="text-white hover:text-[#FFEFC4] font-bold text-lg px-1">✕</button>
+        </div>
+      </div>
+      <div id="detailModalContent" class="p-6 space-y-5 text-sm"></div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div id="toast" class="fixed bottom-5 right-5 bg-[#086288] text-white px-5 py-3 rounded-xl shadow-xl border-l-4 border-[#FFEFC4] text-xs sm:text-sm font-bold transform translate-y-24 opacity-0 transition-all duration-300 z-50 no-print"></div>
+
+  <script>
+    // =========================================================================
+    // TEMPELKAN URL WEB APP GOOGLE APPS SCRIPT ANDA DI BAWAH INI:
+    // =========================================================================
+    const DEFAULT_GAS_URL = ""; // Contoh: "https://script.google.com/macros/s/AKfycbxxxx/exec"
+    const FALLBACK_LOCAL_PIN = "202601";
+
+    const MARHALAH_LIST = ["Ta'arif 1", "Ta'arif 2", "Takwin 1", "Takwin 2", "Tanfis"];
+    const PRESET_PEKERJAAN = [
+      "Mahasiswa", "IRT", "Pedagang", "ASN", "Dosen", "Guru", "Pengajar Qur'an dan/atau Murobbiyah"
+    ];
+
+    let kaderData = [];
+    let activityLogs = [];
+    let isAdmin = false;
+    let verifiedAdminPin = "";
+    let pendingAction = null;
+    let viewMode = "cards";
+
+    let chartMarhalahInstance = null;
+    let chartAmanahInstance = null;
+    let chartDiklatInstance = null;
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const savedUrl = localStorage.getItem("wi_palsel_gas_url_v2") || DEFAULT_GAS_URL;
+      document.getElementById("gasUrlInput").value = savedUrl;
+      loadInitialData();
+    });
+
+    function openSidebar() {
+      document.getElementById("sidebar").classList.remove("-translate-x-full");
+      document.getElementById("sidebarOverlay").classList.remove("hidden");
+    }
+
+    function closeSidebar() {
+      document.getElementById("sidebar").classList.add("-translate-x-full");
+      document.getElementById("sidebarOverlay").classList.add("hidden");
+    }
+
+    function getGasUrl() {
+      return (localStorage.getItem("wi_palsel_gas_url_v2") || DEFAULT_GAS_URL || "").trim();
+    }
+
+    function togglePekerjaanLainnya() {
+      const sel = document.getElementById("pekerjaanSelect").value;
+      const otherInput = document.getElementById("pekerjaanLainnya");
+      if (sel === "Lainnya") {
+        otherInput.classList.remove("hidden");
+        otherInput.required = true;
+        otherInput.focus();
+      } else {
+        otherInput.classList.add("hidden");
+        otherInput.required = false;
+        otherInput.value = "";
+      }
+    }
+
+    function toggleSubAmanah(type) {
+      if (type === "tarbiyah") {
+        const checked = document.getElementById("amanahTarbiyah").checked;
+        document.getElementById("subTarbiyahBox").classList.toggle("hidden", !checked);
+        if (!checked) document.querySelectorAll('input[name="tarbiyahLevel"]').forEach(cb => cb.checked = false);
+      } else if (type === "tahsin") {
+        const checked = document.getElementById("amanahTahsin").checked;
+        document.getElementById("subTahsinBox").classList.toggle("hidden", !checked);
+        if (!checked) document.querySelectorAll('input[name="tahsinLevel"]').forEach(cb => cb.checked = false);
+      }
+    }
+
+    async function loadInitialData() {
+      const url = getGasUrl();
+      if (url) {
+        updateSyncBadge("loading", "Menyinkronkan ke Sheets...");
+        try {
+          const res = await fetch(url);
+          const json = await res.json();
+          if (json.status === "success") {
+            kaderData = json.kader || [];
+            activityLogs = json.logs || [];
+            localStorage.setItem("wi_palsel_kader_v2", JSON.stringify(kaderData));
+            localStorage.setItem("wi_palsel_logs_v2", JSON.stringify(activityLogs));
+            updateSyncBadge("connected", "Terhubung Google Sheets");
+            renderAll();
+            return;
+          }
+        } catch (err) {
+          console.error(err);
+          updateSyncBadge("error", "Offline (Cache Lokal)");
+        }
+      } else {
+        updateSyncBadge("local", "Mode Lokal");
+      }
+
+      kaderData = JSON.parse(localStorage.getItem("wi_palsel_kader_v2") || "[]");
+      activityLogs = JSON.parse(localStorage.getItem("wi_palsel_logs_v2") || "[]");
+      renderAll();
+    }
+
+    function refreshData() {
+      showToast("Menyinkronkan data...");
+      loadInitialData();
+    }
+
+    function updateSyncBadge(state, text) {
+      const dot = document.getElementById("syncDot");
+      const label = document.getElementById("syncText");
+      label.textContent = text;
+      dot.className = "w-2.5 h-2.5 rounded-full shrink-0 ";
+      if (state === "connected") dot.className += "bg-emerald-400";
+      else if (state === "loading") dot.className += "bg-sky-300 animate-ping";
+      else if (state === "error") dot.className += "bg-red-400";
+      else dot.className += "bg-amber-400";
+    }
+
+    function saveGasUrl() {
+      const val = document.getElementById("gasUrlInput").value.trim();
+      localStorage.setItem("wi_palsel_gas_url_v2", val);
+      showToast("URL Spreadsheet disimpan!");
+      loadInitialData();
+    }
+
+    function switchTab(tabName) {
+      const titles = {
+        dashboard: ["Dashboard & Diagram Kader", "Rekapitulasi Marhala, Amanah Liqo & Diklat DPC Palu Selatan"],
+        form: ["Formulir Pendataan Kader", "Input atau perbarui data kader DPC Wahdah Islamiyah Cabang Palu Selatan"],
+        direktori: ["Direktori & Kartu Kader", "Tampilan kartu profil kader dan rekap data terstruktur"],
+        koneksi: ["Pengaturan Koneksi Spreadsheet", "Sinkronisasi Web App Google Apps Script dengan GitHub Pages"]
+      };
+
+      ["dashboard", "form", "direktori", "koneksi"].forEach(t => {
+        document.getElementById("tab-" + t).classList.add("hidden");
+        const navBtn = document.getElementById("nav-" + t);
+        navBtn.classList.remove("nav-active");
+        navBtn.classList.add("nav-inactive");
+      });
+
+      document.getElementById("tab-" + tabName).classList.remove("hidden");
+      const activeNav = document.getElementById("nav-" + tabName);
+      activeNav.classList.remove("nav-inactive");
+      activeNav.classList.add("nav-active");
+
+      if (titles[tabName]) {
+        document.getElementById("pageTitle").textContent = titles[tabName][0];
+        document.getElementById("pageSubtitle").textContent = titles[tabName][1];
+      }
+
+      if (tabName === "dashboard") {
+        renderDashboardAndCharts();
+      }
+    }
+
+    function renderAll() {
+      renderDashboardAndCharts();
+      renderDirectory();
+      renderLogs();
+    }
+
+    function renderDashboardAndCharts() {
+      const total = kaderData.length;
+      const marhalahCounts = { "Ta'arif 1": 0, "Ta'arif 2": 0, "Takwin 1": 0, "Takwin 2": 0, "Tanfis": 0 };
+
+      let pemegangLiqoCount = 0;
+      let countDirosa = 0, countTarbiyah = 0, countTahsin = 0;
+      let countDM1 = 0, countDM2 = 0, countDMC = 0, countPPD = 0;
+      let countDK1 = 0, countDK2 = 0, countDaiyah1 = 0, countDaiyah2 = 0;
+
+      kaderData.forEach(k => {
+        if (marhalahCounts.hasOwnProperty(k.marhalah)) marhalahCounts[k.marhalah]++;
+
+        const a = k.amanah || {};
+        if (a.dirosa || a.tarbiyah || a.tahsin) pemegangLiqoCount++;
+        if (a.dirosa) countDirosa++;
+        if (a.tarbiyah) countTarbiyah++;
+        if (a.tahsin) countTahsin++;
+
+        const dm = k.pelatihanDM || [];
+        if (dm.includes("DM 1")) countDM1++;
+        if (dm.includes("DM 2")) countDM2++;
+        if (k.dmc === "Sudah") countDMC++;
+        if (k.ppd === "Sudah") countPPD++;
+
+        if (k.dk === "DK 1") countDK1++;
+        if (k.dk === "DK 2") { countDK2++; countDK1++; }
+
+        if (k.daiyah === "Diklat Daiyah 1") countDaiyah1++;
+        if (k.daiyah === "Diklat Daiyah 2") { countDaiyah2++; countDaiyah1++; }
+      });
+
+      document.getElementById("statTotalKader").textContent = total;
+      document.getElementById("statPemegangLiqo").textContent = pemegangLiqoCount;
+      const pctLiqo = total > 0 ? Math.round((pemegangLiqoCount / total) * 100) : 0;
+      document.getElementById("statPemegangLiqoPct").textContent = `${pctLiqo}% dari total kader`;
+      document.getElementById("statSudahDMC").textContent = countDMC;
+      document.getElementById("statSudahPPD").textContent = countPPD;
+
+      // 1. Chart Marhalah
+      const ctxM = document.getElementById("chartMarhalah").getContext("2d");
+      if (chartMarhalahInstance) chartMarhalahInstance.destroy();
+      chartMarhalahInstance = new Chart(ctxM, {
+        type: "bar",
+        data: {
+          labels: MARHALAH_LIST,
+          datasets: [{
+            label: "Jumlah Kader",
+            data: MARHALAH_LIST.map(m => marhalahCounts[m] || 0),
+            backgroundColor: ["#086288", "#4D8DBA", "#97D7FF", "#0a7ba8", "#FFEFC4"],
+            borderColor: "#086288",
+            borderWidth: 1.5,
+            borderRadius: 8
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: { beginAtZero: true, ticks: { stepSize: 1 } }
+          }
+        }
+      });
+
+      // 2. Chart Amanah Liqo
+      const ctxA = document.getElementById("chartAmanah").getContext("2d");
+      if (chartAmanahInstance) chartAmanahInstance.destroy();
+      chartAmanahInstance = new Chart(ctxA, {
+        type: "doughnut",
+        data: {
+          labels: ["Liqo Dirosa", "Liqo Tarbiyah", "Liqo Tahsin"],
+          datasets: [{
+            data: [countDirosa, countTarbiyah, countTahsin],
+            backgroundColor: ["#086288", "#4D8DBA", "#FFEFC4"],
+            borderColor: "#ffffff",
+            borderWidth: 3
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: "bottom", labels: { boxWidth: 14, font: { weight: "bold" } } }
+          }
+        }
+      });
+
+      // 3. Chart Diklat & Pelatihan
+      const ctxD = document.getElementById("chartDiklat").getContext("2d");
+      if (chartDiklatInstance) chartDiklatInstance.destroy();
+      chartDiklatInstance = new Chart(ctxD, {
+        type: "bar",
+        data: {
+          labels: ["DM 1", "DM 2", "DMC", "PPD", "DK 1", "DK 2", "Daiyah 1", "Daiyah 2"],
+          datasets: [{
+            label: "Jumlah Kader Mengikuti",
+            data: [countDM1, countDM2, countDMC, countPPD, countDK1, countDK2, countDaiyah1, countDaiyah2],
+            backgroundColor: "#4D8DBA",
+            hoverBackgroundColor: "#086288",
+            borderRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: { beginAtZero: true, ticks: { stepSize: 1 } }
+          }
+        }
+      });
+    }
+
+    function renderLogs() {
+      const tbody = document.getElementById("activityLogBody");
+      if (!activityLogs.length) {
+        tbody.innerHTML = `<tr><td colspan="4" class="py-4 text-center text-slate-400 text-xs">Belum ada riwayat aktivitas tercatat.</td></tr>`;
+        return;
+      }
+      tbody.innerHTML = activityLogs.slice(0, 15).map(log => {
+        let badge = "bg-[#97D7FF]/40 text-[#086288]";
+        if (log.aksi === "EDIT") badge = "bg-[#FFEFC4] text-[#086288]";
+        if (log.aksi === "HAPUS") badge = "bg-red-100 text-red-700";
+        return `
+          <tr class="hover:bg-slate-50">
+            <td class="py-2.5 px-3 text-slate-500 whitespace-nowrap">${escapeHtml(log.waktu || "-")}</td>
+            <td class="py-2.5 px-3"><span class="px-2 py-0.5 rounded text-[11px] font-extrabold ${badge}">${escapeHtml(log.aksi)}</span></td>
+            <td class="py-2.5 px-3 font-bold text-[#086288]">${escapeHtml(log.nama || "-")}</td>
+            <td class="py-2.5 px-3 text-slate-600">${escapeHtml(log.keterangan || "-")}</td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    function setViewMode(mode) {
+      viewMode = mode;
+      const btnCards = document.getElementById("btnViewCards");
+      const btnTable = document.getElementById("btnViewTable");
+      const cardsWrap = document.getElementById("cardsViewContainer");
+      const tableWrap = document.getElementById("tableViewContainer");
+
+      if (mode === "cards") {
+        btnCards.className = "px-3.5 py-2 rounded-xl bg-[#086288] text-white font-bold text-xs transition";
+        btnTable.className = "px-3.5 py-2 rounded-xl bg-[#e6f4fd] text-[#086288] font-bold text-xs transition";
+        cardsWrap.classList.remove("hidden");
+        tableWrap.classList.add("hidden");
+      } else {
+        btnTable.className = "px-3.5 py-2 rounded-xl bg-[#086288] text-white font-bold text-xs transition";
+        btnCards.className = "px-3.5 py-2 rounded-xl bg-[#e6f4fd] text-[#086288] font-bold text-xs transition";
+        tableWrap.classList.remove("hidden");
+        cardsWrap.classList.add("hidden");
+      }
+      renderDirectory();
+    }
+
+    function renderDirectory() {
+      const q = (document.getElementById("searchInput").value || "").toLowerCase();
+      const filterM = document.getElementById("filterMarhalah").value;
+
+      const filtered = kaderData.filter(k => {
+        const matchText = (k.namaLengkap || "").toLowerCase().includes(q) || (k.namaPanggilan || "").toLowerCase().includes(q);
+        const matchM = filterM === "ALL" || k.marhalah === filterM;
+        return matchText && matchM;
+      });
+
+      renderCardsView(filtered);
+      renderTableView(filtered);
+    }
+
+    // KARTU KADER
+    function renderCardsView(list) {
+      const container = document.getElementById("cardsViewContainer");
+      if (!list.length) {
+        container.innerHTML = `<div class="col-span-full bg-white rounded-2xl p-10 text-center border border-[#97D7FF] text-slate-400 text-sm">Belum ada kartu kader yang ditampilkan.</div>`;
+        return;
+      }
+
+      container.innerHTML = list.map(k => {
+        const a = k.amanah || {};
+        const amanahBadges = [];
+        if (a.dirosa) amanahBadges.push(`<span class="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 text-[11px] font-bold">Liqo Dirosa</span>`);
+        if (a.tarbiyah) {
+          const sub = (a.tarbiyahList && a.tarbiyahList.length) ? `: ${a.tarbiyahList.join(", ")}` : "";
+          amanahBadges.push(`<span class="px-2 py-0.5 rounded-md bg-[#97D7FF]/50 text-[#086288] text-[11px] font-bold">Tarbiyah${escapeHtml(sub)}</span>`);
+        }
+        if (a.tahsin) {
+          const sub = (a.tahsinList && a.tahsinList.length) ? `: ${a.tahsinList.join(", ")}` : "";
+          amanahBadges.push(`<span class="px-2 py-0.5 rounded-md bg-[#FFEFC4] text-[#086288] text-[11px] font-bold">Tahsin${escapeHtml(sub)}</span>`);
+        }
+
+        const diklatBadges = [];
+        if (k.pelatihanDM && k.pelatihanDM.length) diklatBadges.push(k.pelatihanDM.join(" & "));
+        if (k.dmc === "Sudah") diklatBadges.push("DMC");
+        if (k.ppd === "Sudah") diklatBadges.push("PPD");
+        if (k.dk && k.dk !== "Belum") diklatBadges.push(k.dk);
+        if (k.daiyah && k.daiyah !== "Belum") diklatBadges.push(k.daiyah);
+
+        const privatBox = isAdmin
+          ? `<div class="bg-[#f4faff] rounded-xl p-3 border border-[#97D7FF]/70 text-xs space-y-1">
+              <p><strong class="text-[#086288]">No. HP:</strong> ${escapeHtml(k.noHp || "-")}</p>
+              <p><strong class="text-[#086288]">Pekerjaan:</strong> ${escapeHtml(k.pekerjaan || "-")}</p>
+              <p><strong class="text-[#086288]">Alamat:</strong> ${escapeHtml(k.alamat || "-")} (${escapeHtml(k.kecamatan || "Palu Selatan")})</p>
+            </div>`
+          : `<div class="bg-[#FFEFC4]/70 rounded-xl px-3 py-2 border border-[#086288]/15 text-[11px] font-bold text-[#086288] flex items-center justify-between">
+              <span>🔒 Alamat, No. HP & Pekerjaan Terkunci</span>
+              <span class="text-[10px] uppercase bg-[#086288] text-white px-2 py-0.5 rounded">Admin</span>
+            </div>`;
+
+        return `
+          <div class="bg-white rounded-2xl shadow-xs border-2 border-[#97D7FF] hover:border-[#086288] transition overflow-hidden flex flex-col justify-between">
+            <div>
+              <!-- Header Kartu -->
+              <div class="bg-gradient-to-r from-[#086288] to-[#4D8DBA] px-5 py-3.5 text-white flex items-center justify-between">
+                <div>
+                  <span class="text-[10px] uppercase tracking-wider text-[#FFEFC4] font-extrabold block">Kartu Kader • Palu Selatan</span>
+                  <h3 class="font-extrabold text-base leading-snug">${escapeHtml(k.namaLengkap)}</h3>
+                </div>
+                <span class="px-2.5 py-1 rounded-full bg-[#FFEFC4] text-[#086288] font-extrabold text-[11px] shrink-0">
+                  ${escapeHtml(k.marhalah)}
+                </span>
+              </div>
+
+              <!-- Isi Kartu -->
+              <div class="p-5 space-y-3.5">
+                <p class="text-xs font-bold text-[#4D8DBA]">Nama Panggilan: <span class="text-slate-800">${escapeHtml(k.namaPanggilan)}</span></p>
+
+                ${privatBox}
+
+                <div>
+                  <p class="text-[11px] font-extrabold uppercase text-[#086288] mb-1.5">Amanah Liqo Saat Ini</p>
+                  <div class="flex flex-wrap gap-1.5">
+                    ${amanahBadges.length ? amanahBadges.join("") : `<span class="text-xs text-slate-400 italic">Belum memegang amanah liqo</span>`}
+                  </div>
+                </div>
+
+                <div>
+                  <p class="text-[11px] font-extrabold uppercase text-[#086288] mb-1.5">Pelatihan & Diklat</p>
+                  <div class="flex flex-wrap gap-1">
+                    ${diklatBadges.length
+                      ? diklatBadges.map(d => `<span class="px-2 py-0.5 rounded bg-slate-100 border border-[#97D7FF] text-[#086288] text-[11px] font-bold">${escapeHtml(d)}</span>`).join("")
+                      : `<span class="text-xs text-slate-400">Belum ada riwayat diklat tercatat</span>`}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Footer Aksi Kartu -->
+            <div class="px-5 py-3 bg-[#f8fcff] border-t border-[#97D7FF]/60 flex items-center justify-between gap-2 no-print">
+              <button onclick="openDetailModal('${k.id}')" class="px-3 py-1.5 rounded-lg bg-[#086288] hover:bg-[#064d6b] text-white text-xs font-bold transition">
+                Lihat Kartu
+              </button>
+              <div class="flex items-center gap-1.5">
+                <button onclick="requestEditKader('${k.id}')" class="px-2.5 py-1.5 rounded-lg bg-[#FFEFC4] hover:bg-[#fae2a0] text-[#086288] text-xs font-bold transition">
+                  Edit
+                </button>
+                <button onclick="requestDeleteKader('${k.id}')" class="px-2.5 py-1.5 rounded-lg bg-red-100 hover:bg-red-200 text-red-700 text-xs font-bold transition">
+                  Hapus
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    // TABEL KADER
+    function renderTableView(list) {
+      const tbody = document.getElementById("kaderTableBody");
+      if (!list.length) {
+        tbody.innerHTML = `<tr><td colspan="7" class="py-8 text-center text-slate-400 text-sm">Belum ada data kader yang sesuai.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = list.map((k, idx) => {
+        const sensitiveHtml = isAdmin
+          ? `<div class="text-xs space-y-0.5">
+              <p class="font-semibold text-slate-700">📞 ${escapeHtml(k.noHp || "-")}</p>
+              <p class="text-slate-600">💼 ${escapeHtml(k.pekerjaan || "-")}</p>
+              <p class="text-slate-500 truncate max-w-[180px]" title="${escapeHtml(k.alamat || "")}">📍 ${escapeHtml(k.alamat || "-")} (${escapeHtml(k.kecamatan || "Palu Selatan")})</p>
+            </div>`
+          : `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#FFEFC4] text-[#086288] text-[11px] font-bold">
+              🔒 Terkunci (Admin)
+            </span>`;
+
+        const a = k.amanah || {};
+        const amanahArr = [];
+        if (a.dirosa) amanahArr.push("Dirosa");
+        if (a.tarbiyah) amanahArr.push("Tarbiyah" + (a.tarbiyahList?.length ? ` (${a.tarbiyahList.join(", ")})` : ""));
+        if (a.tahsin) amanahArr.push("Tahsin" + (a.tahsinList?.length ? ` (${a.tahsinList.join(", ")})` : ""));
+
+        const diklatArr = [];
+        if (k.pelatihanDM?.length) diklatArr.push(k.pelatihanDM.join(", "));
+        if (k.dmc === "Sudah") diklatArr.push("DMC");
+        if (k.ppd === "Sudah") diklatArr.push("PPD");
+        if (k.dk && k.dk !== "Belum") diklatArr.push(k.dk);
+        if (k.daiyah && k.daiyah !== "Belum") diklatArr.push(k.daiyah);
+
+        return `
+          <tr class="hover:bg-[#f4faff] transition">
+            <td class="py-3 px-4 font-bold text-slate-500">${idx + 1}</td>
+            <td class="py-3 px-4">
+              <p class="font-extrabold text-[#086288]">${escapeHtml(k.namaLengkap)}</p>
+              <p class="text-xs text-[#4D8DBA]">Panggilan: ${escapeHtml(k.namaPanggilan)}</p>
+            </td>
+            <td class="py-3 px-4"><span class="px-2.5 py-1 rounded-full bg-[#086288] text-[#FFEFC4] text-xs font-extrabold whitespace-nowrap">${escapeHtml(k.marhalah)}</span></td>
+            <td class="py-3 px-4">${sensitiveHtml}</td>
+            <td class="py-3 px-4 text-xs font-semibold text-slate-700">${escapeHtml(amanahArr.join(" | ") || "-")}</td>
+            <td class="py-3 px-4 text-xs font-semibold text-slate-700">${escapeHtml(diklatArr.join(" • ") || "-")}</td>
+            <td class="py-3 px-4 text-center whitespace-nowrap no-print">
+              <div class="inline-flex items-center gap-1.5">
+                <button onclick="openDetailModal('${k.id}')" class="px-2.5 py-1.5 rounded-lg bg-[#4D8DBA] text-white text-xs font-bold">Detail</button>
+                <button onclick="requestEditKader('${k.id}')" class="px-2.5 py-1.5 rounded-lg bg-[#FFEFC4] text-[#086288] text-xs font-bold">Edit</button>
+                <button onclick="requestDeleteKader('${k.id}')" class="px-2.5 py-1.5 rounded-lg bg-red-100 text-red-700 text-xs font-bold">Hapus</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    // SUBMIT FORM
+    async function handleFormSubmit(e) {
+      e.preventDefault();
+      const editId = document.getElementById("editKaderId").value;
+
+      if (editId && !isAdmin) {
+        openPinModal("EDIT", editId);
+        return;
+      }
+
+      const pekSel = document.getElementById("pekerjaanSelect").value;
+      const pekFinal = pekSel === "Lainnya"
+        ? document.getElementById("pekerjaanLainnya").value.trim()
+        : pekSel;
+
+      const amanahTarbiyah = document.getElementById("amanahTarbiyah").checked;
+      const tarbiyahList = amanahTarbiyah
+        ? Array.from(document.querySelectorAll('input[name="tarbiyahLevel"]:checked')).map(el => el.value)
+        : [];
+
+      const amanahTahsin = document.getElementById("amanahTahsin").checked;
+      const tahsinList = amanahTahsin
+        ? Array.from(document.querySelectorAll('input[name="tahsinLevel"]:checked')).map(el => el.value)
+        : [];
+
+      const pelatihanDM = Array.from(document.querySelectorAll('input[name="pelatihanDM"]:checked')).map(el => el.value);
+
+      const payloadData = {
+        id: editId || ("PS-" + Date.now()),
+        namaLengkap: document.getElementById("namaLengkap").value.trim(),
+        namaPanggilan: document.getElementById("namaPanggilan").value.trim(),
+        alamat: document.getElementById("alamat").value.trim(),
+        kecamatan: document.getElementById("kecamatan").value.trim() || "Palu Selatan",
+        noHp: document.getElementById("noHp").value.trim(),
+        pekerjaan: pekFinal,
+        marhalah: document.getElementById("marhalah").value,
+        amanah: {
+          dirosa: document.getElementById("amanahDirosa").checked,
+          tarbiyah: amanahTarbiyah,
+          tarbiyahList: tarbiyahList,
+          tahsin: amanahTahsin,
+          tahsinList: tahsinList
+        },
+        pelatihanDM: pelatihanDM,
+        dmc: document.getElementById("statusDMC").value,
+        ppd: document.getElementById("statusPPD").value,
+        dk: document.getElementById("statusDK").value,
+        daiyah: document.getElementById("statusDaiyah").value
+      };
+
+      const btn = document.getElementById("submitFormBtn");
+      btn.disabled = true;
+      btn.innerHTML = `<span>⏳</span> Menyimpan...`;
+
+      const url = getGasUrl();
+      const actionType = editId ? "UPDATE" : "CREATE";
+
+      if (url) {
+        try {
+          const res = await fetch(url, {
+            method: "POST",
+            body: JSON.stringify({ action: actionType, pin: verifiedAdminPin, data: payloadData })
+          });
+          const json = await res.json();
+          if (json.status !== "success") {
+            alert("Gagal menyimpan ke Spreadsheet: " + (json.message || "Error"));
+            btn.disabled = false;
+            btn.innerHTML = `<span>💾</span> Simpan & Sinkronkan ke Spreadsheet`;
+            return;
+          }
+        } catch (err) {
+          console.error(err);
+          showToast("Tersimpan lokal (Periksa koneksi Spreadsheet)");
+        }
+      }
+
+      const nowStr = new Date().toLocaleString("id-ID");
+      if (editId) {
+        const idx = kaderData.findIndex(item => item.id === editId);
+        if (idx !== -1) kaderData[idx] = payloadData;
+        activityLogs.unshift({ waktu: nowStr, aksi: "EDIT", nama: payloadData.namaLengkap, keterangan: "Pembaruan data oleh Admin" });
+        showToast("Data kader diperbarui!");
+      } else {
+        kaderData.push(payloadData);
+        activityLogs.unshift({ waktu: nowStr, aksi: "TAMBAH", nama: payloadData.namaLengkap, keterangan: `Pendaftaran kader (${payloadData.marhalah})` });
+        showToast("Data kader tersimpan!");
+      }
+
+      localStorage.setItem("wi_palsel_kader_v2", JSON.stringify(kaderData));
+      localStorage.setItem("wi_palsel_logs_v2", JSON.stringify(activityLogs));
+
+      btn.disabled = false;
+      btn.innerHTML = `<span>💾</span> Simpan & Sinkronkan ke Spreadsheet`;
+      resetForm();
+      renderAll();
+      switchTab("direktori");
+    }
+
+    function resetForm() {
+      document.getElementById("kaderForm").reset();
+      document.getElementById("editKaderId").value = "";
+      document.getElementById("kecamatan").value = "Palu Selatan";
+      document.getElementById("pekerjaanLainnya").classList.add("hidden");
+      document.getElementById("pekerjaanLainnya").required = false;
+      document.getElementById("subTarbiyahBox").classList.add("hidden");
+      document.getElementById("subTahsinBox").classList.add("hidden");
+      document.getElementById("formTitle").textContent = "Formulir Pendataan Kader Baru";
+      document.getElementById("submitFormBtn").innerHTML = `<span>💾</span> Simpan & Sinkronkan ke Spreadsheet`;
+      document.getElementById("cancelEditBtn").classList.add("hidden");
+    }
+
+    // PIN ADMIN
+    function toggleAdminAuth() {
+      if (isAdmin) {
+        isAdmin = false;
+        verifiedAdminPin = "";
+        updateAdminUI();
+        renderDirectory();
+        showToast("Mode Admin dikunci.");
+      } else {
+        openPinModal("UNLOCK_ADMIN");
+      }
+    }
+
+    function openPinModal(actionType, targetId = null) {
+      pendingAction = { type: actionType, id: targetId };
+      document.getElementById("pinInput").value = "";
+      document.getElementById("pinErrorMsg").classList.add("hidden");
+      document.getElementById("pinModal").classList.remove("hidden");
+      document.getElementById("pinModal").classList.add("flex");
+      setTimeout(() => document.getElementById("pinInput").focus(), 100);
+    }
+
+    function closePinModal() {
+      document.getElementById("pinModal").classList.add("hidden");
+      document.getElementById("pinModal").classList.remove("flex");
+      pendingAction = null;
+    }
+
+    async function verifyPinAction() {
+      const pinVal = document.getElementById("pinInput").value.trim();
+      if (!pinVal) return;
+
+      const btn = document.getElementById("confirmPinBtn");
+      btn.disabled = true;
+      btn.textContent = "Memeriksa...";
+
+      let isValid = false;
+      const url = getGasUrl();
+
+      if (url) {
+        try {
+          const res = await fetch(url, {
+            method: "POST",
+            body: JSON.stringify({ action: "VERIFY_PIN", pin: pinVal })
+          });
+          const json = await res.json();
+          isValid = json.valid === true;
+        } catch (err) {
+          isValid = (pinVal === FALLBACK_LOCAL_PIN);
+        }
+      } else {
+        isValid = (pinVal === FALLBACK_LOCAL_PIN);
+      }
+
+      btn.disabled = false;
+      btn.textContent = "Verifikasi PIN";
+
+      if (!isValid) {
+        document.getElementById("pinErrorMsg").classList.remove("hidden");
+        return;
+      }
+
+      isAdmin = true;
+      verifiedAdminPin = pinVal;
+      updateAdminUI();
+      renderDirectory();
+
+      const actionToRun = pendingAction;
+      closePinModal();
+      showToast("Mode Admin aktif!");
+
+      if (actionToRun) {
+        if (actionToRun.type === "EDIT" && actionToRun.id) populateEditForm(actionToRun.id);
+        else if (actionToRun.type === "DELETE" && actionToRun.id) executeDeleteKader(actionToRun.id);
+      }
+    }
+
+    function updateAdminUI() {
+      const btn = document.getElementById("adminToggleBtn");
+      const label = document.getElementById("adminBtnLabel");
+      const notice = document.getElementById("privacyNotice");
+      if (isAdmin) {
+        btn.className = "w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-emerald-500 text-white hover:bg-emerald-600 font-extrabold text-xs shadow transition";
+        label.textContent = "Admin Aktif (Kunci)";
+        notice.classList.add("hidden");
+      } else {
+        btn.className = "w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-[#FFEFC4] text-[#086288] hover:bg-[#fae2a0] font-extrabold text-xs shadow transition";
+        label.textContent = "Login PIN Admin";
+        notice.classList.remove("hidden");
+      }
+    }
+
+    function requestEditKader(id) {
+      if (!isAdmin) {
+        openPinModal("EDIT", id);
+        return;
+      }
+      populateEditForm(id);
+    }
+
+    function populateEditForm(id) {
+      const k = kaderData.find(item => item.id === id);
+      if (!k) return;
+
+      document.getElementById("editKaderId").value = k.id;
+      document.getElementById("namaLengkap").value = k.namaLengkap || "";
+      document.getElementById("namaPanggilan").value = k.namaPanggilan || "";
+      document.getElementById("alamat").value = k.alamat || "";
+      document.getElementById("kecamatan").value = k.kecamatan || "Palu Selatan";
+      document.getElementById("noHp").value = k.noHp || "";
+
+      if (PRESET_PEKERJAAN.includes(k.pekerjaan)) {
+        document.getElementById("pekerjaanSelect").value = k.pekerjaan;
+        document.getElementById("pekerjaanLainnya").classList.add("hidden");
+        document.getElementById("pekerjaanLainnya").required = false;
+      } else {
+        document.getElementById("pekerjaanSelect").value = "Lainnya";
+        document.getElementById("pekerjaanLainnya").classList.remove("hidden");
+        document.getElementById("pekerjaanLainnya").required = true;
+        document.getElementById("pekerjaanLainnya").value = k.pekerjaan || "";
+      }
+
+      document.getElementById("marhalah").value = k.marhalah || "Ta'arif 1";
+
+      const a = k.amanah || {};
+      document.getElementById("amanahDirosa").checked = Boolean(a.dirosa);
+      document.getElementById("amanahTarbiyah").checked = Boolean(a.tarbiyah);
+      toggleSubAmanah("tarbiyah");
+      document.querySelectorAll('input[name="tarbiyahLevel"]').forEach(cb => {
+        cb.checked = Array.isArray(a.tarbiyahList) && a.tarbiyahList.includes(cb.value);
+      });
+
+      document.getElementById("amanahTahsin").checked = Boolean(a.tahsin);
+      toggleSubAmanah("tahsin");
+      document.querySelectorAll('input[name="tahsinLevel"]').forEach(cb => {
+        cb.checked = Array.isArray(a.tahsinList) && a.tahsinList.includes(cb.value);
+      });
+
+      document.querySelectorAll('input[name="pelatihanDM"]').forEach(cb => {
+        cb.checked = Array.isArray(k.pelatihanDM) && k.pelatihanDM.includes(cb.value);
+      });
+
+      document.getElementById("statusDMC").value = k.dmc || "Belum";
+      document.getElementById("statusPPD").value = k.ppd || "Belum";
+      document.getElementById("statusDK").value = k.dk || "Belum";
+      document.getElementById("statusDaiyah").value = k.daiyah || "Belum";
+
+      document.getElementById("formTitle").textContent = "Edit Data Kader: " + k.namaLengkap;
+      document.getElementById("submitFormBtn").innerHTML = `<span>✅</span> Perbarui Data di Spreadsheet`;
+      document.getElementById("cancelEditBtn").classList.remove("hidden");
+      switchTab("form");
+    }
+
+    function requestDeleteKader(id) {
+      if (!isAdmin) {
+        openPinModal("DELETE", id);
+        return;
+      }
+      executeDeleteKader(id);
+    }
+
+    async function executeDeleteKader(id) {
+      const k = kaderData.find(item => item.id === id);
+      if (!k) return;
+      if (!confirm(`Hapus data kader "${k.namaLengkap}"?`)) return;
+
+      const url = getGasUrl();
+      if (url) {
+        try {
+          const res = await fetch(url, {
+            method: "POST",
+            body: JSON.stringify({ action: "DELETE", pin: verifiedAdminPin, id: id })
+          });
+          const json = await res.json();
+          if (json.status !== "success") {
+            alert("Gagal menghapus di Spreadsheet: " + (json.message || "Error"));
+            return;
+          }
+        } catch (err) {
+          console.error(err);
+        }
+      }
+
+      kaderData = kaderData.filter(item => item.id !== id);
+      activityLogs.unshift({
+        waktu: new Date().toLocaleString("id-ID"),
+        aksi: "HAPUS",
+        nama: k.namaLengkap,
+        keterangan: "Penghapusan data oleh Admin"
+      });
+      localStorage.setItem("wi_palsel_kader_v2", JSON.stringify(kaderData));
+      localStorage.setItem("wi_palsel_logs_v2", JSON.stringify(activityLogs));
+      renderAll();
+      showToast("Data kader dihapus.");
+    }
+
+    function openDetailModal(id) {
+      const k = kaderData.find(item => item.id === id);
+      if (!k) return;
+
+      const privateSection = isAdmin
+        ? `<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-[#f4faff] p-4 rounded-xl border border-[#97D7FF]">
+            <div><span class="text-[11px] font-bold text-[#4D8DBA] block">Nomor HP</span><span class="font-bold text-[#086288]">${escapeHtml(k.noHp || "-")}</span></div>
+            <div><span class="text-[11px] font-bold text-[#4D8DBA] block">Pekerjaan</span><span class="font-bold text-[#086288]">${escapeHtml(k.pekerjaan || "-")}</span></div>
+            <div><span class="text-[11px] font-bold text-[#4D8DBA] block">Alamat</span><span class="font-bold text-[#086288]">${escapeHtml(k.alamat || "-")}</span></div>
+            <div><span class="text-[11px] font-bold text-[#4D8DBA] block">Kecamatan</span><span class="font-bold text-[#086288]">${escapeHtml(k.kecamatan || "Palu Selatan")}</span></div>
+          </div>`
+        : `<div class="p-3.5 rounded-xl bg-[#FFEFC4] text-[#086288] text-xs font-bold flex items-center justify-between">
+            <span>🔒 Alamat, Nomor HP, dan Pekerjaan terkunci (Khusus Admin).</span>
+            <button onclick="closeDetailModal(); openPinModal('UNLOCK_ADMIN')" class="underline">Login Admin</button>
+          </div>`;
+
+      const a = k.amanah || {};
+      const dmText = (k.pelatihanDM && k.pelatihanDM.length) ? k.pelatihanDM.join(", ") : "Belum";
+
+      document.getElementById("detailModalContent").innerHTML = `
+        <div class="rounded-2xl border-2 border-[#086288] overflow-hidden">
+          <div class="bg-[#086288] text-white px-5 py-4 flex items-center justify-between">
+            <div>
+              <span class="text-[10px] uppercase tracking-widest text-[#FFEFC4] font-extrabold block">DPC Wahdah Islamiyah Cabang Palu Selatan</span>
+              <h4 class="text-lg font-extrabold">${escapeHtml(k.namaLengkap)}</h4>
+              <p class="text-xs text-[#97D7FF]">Panggilan: ${escapeHtml(k.namaPanggilan)}</p>
+            </div>
+            <span class="px-3 py-1 rounded-full bg-[#FFEFC4] text-[#086288] font-extrabold text-xs">${escapeHtml(k.marhalah)}</span>
+          </div>
+          <div class="p-5 space-y-4 bg-white">
+            ${privateSection}
+            <div class="bg-[#f8fcff] p-3.5 rounded-xl border border-[#97D7FF] text-xs space-y-1">
+              <p class="font-extrabold uppercase text-[#086288] mb-1">Amanah Saat Ini (Dalam Lembaga)</p>
+              <p><strong>Liqo Dirosa:</strong> ${a.dirosa ? "Ya" : "Tidak"}</p>
+              <p><strong>Liqo Tarbiyah:</strong> ${a.tarbiyah ? "Ya (" + (a.tarbiyahList?.join(", ") || "-") + ")" : "Tidak"}</p>
+              <p><strong>Liqo Tahsin:</strong> ${a.tahsin ? "Ya (" + (a.tahsinList?.join(", ") || "-") + ")" : "Tidak"}</p>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 text-xs">
+              <div class="p-2.5 rounded-xl border border-[#97D7FF]"><span class="text-[#4D8DBA] block font-bold">Pelatihan DM</span><span class="font-extrabold text-[#086288]">${escapeHtml(dmText)}</span></div>
+              <div class="p-2.5 rounded-xl border border-[#97D7FF]"><span class="text-[#4D8DBA] block font-bold">DMC</span><span class="font-extrabold text-[#086288]">${escapeHtml(k.dmc || "Belum")}</span></div>
+              <div class="p-2.5 rounded-xl border border-[#97D7FF]"><span class="text-[#4D8DBA] block font-bold">PPD</span><span class="font-extrabold text-[#086288]">${escapeHtml(k.ppd || "Belum")}</span></div>
+              <div class="p-2.5 rounded-xl border border-[#97D7FF]"><span class="text-[#4D8DBA] block font-bold">Diklat Kepemimpinan</span><span class="font-extrabold text-[#086288]">${escapeHtml(k.dk || "Belum")}</span></div>
+              <div class="p-2.5 rounded-xl border border-[#97D7FF] col-span-2"><span class="text-[#4D8DBA] block font-bold">Diklat Daiyah</span><span class="font-extrabold text-[#086288]">${escapeHtml(k.daiyah || "Belum")}</span></div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      document.getElementById("detailModal").classList.remove("hidden");
+      document.getElementById("detailModal").classList.add("flex");
+    }
+
+    function closeDetailModal() {
+      document.getElementById("detailModal").classList.add("hidden");
+      document.getElementById("detailModal").classList.remove("flex");
+    }
+
+    // SAVE EXCEL (.XLSX)
+    function exportExcel() {
+      if (!kaderData.length) {
+        showToast("Belum ada data untuk diekspor ke Excel.");
+        return;
+      }
+      const rows = kaderData.map((k, i) => {
+        const a = k.amanah || {};
+        return {
+          "No": i + 1,
+          "ID": k.id,
+          "Nama Lengkap": k.namaLengkap,
+          "Nama Panggilan": k.namaPanggilan,
+          "Alamat": isAdmin ? k.alamat : "TERKUNCI (ADMIN)",
+          "Kecamatan": k.kecamatan || "Palu Selatan",
+          "Nomor HP": isAdmin ? k.noHp : "TERKUNCI (ADMIN)",
+          "Pekerjaan": isAdmin ? k.pekerjaan : "TERKUNCI (ADMIN)",
+          "Marhala": k.marhalah,
+          "Liqo Dirosa": a.dirosa ? "Ya" : "Tidak",
+          "Liqo Tarbiyah": a.tarbiyah ? "Ya" : "Tidak",
+          "Detail Tarbiyah": (a.tarbiyahList || []).join(", ") || "-",
+          "Liqo Tahsin": a.tahsin ? "Ya" : "Tidak",
+          "Detail Tahsin": (a.tahsinList || []).join(", ") || "-",
+          "Pelatihan DM": (k.pelatihanDM || []).join(", ") || "Belum",
+          "DMC": k.dmc || "Belum",
+          "PPD": k.ppd || "Belum",
+          "Diklat Kepemimpinan": k.dk || "Belum",
+          "Diklat Daiyah": k.daiyah || "Belum"
+        };
+      });
+
+      const worksheet = XLSX.utils.json_to_sheet(rows);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Data_Kader_Palu_Selatan");
+      XLSX.writeFile(workbook, `Data_Kader_WI_Palu_Selatan_${new Date().toISOString().slice(0,10)}.xlsx`);
+      showToast("File Excel (.xlsx) berhasil diunduh!");
+    }
+
+    // SAVE PDF
+    function saveAsPDF() {
+      showToast("Membuka jendela Save as PDF...");
+      setTimeout(() => window.print(), 250);
+    }
+
+    function escapeHtml(str) {
+      return String(str ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById("toast");
+      t.textContent = msg;
+      t.classList.remove("translate-y-24", "opacity-0");
+      setTimeout(() => {
+        t.classList.add("translate-y-24", "opacity-0");
+      }, 3000);
+    }
+  </script>
+</body>
+</html>
